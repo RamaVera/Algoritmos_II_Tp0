@@ -10,10 +10,7 @@
 #include "Transaction.h"
 #include "TransactionInput.h"
 #include "TransactionOutput.h"
-
-#ifndef NULL
-	#define NULL 0;
-#endif
+#include <cstddef> // Para NULL
 
 	//---Constructores---//
 
@@ -75,21 +72,21 @@ int Transaction::getNumTransactionOut(){
 }
 
 //Descripcion: Obtiene la transaccion de la lista de entradas
-//Precondicion:
+//Precondicion: Si el indice esta fuera de rango debe devolver null
 //Postcondicion:
 TransactionInput * Transaction::getTransactionInput(int index){
-	if( index < this->n_tx_in )
+	if( index >= 0  || index < this->n_tx_in )
 		return &(this->pInputs[index]);
 	else
-		return NULL
+		return NULL;
 }
 
-//Descripcion: Obtiene la transaccion de la lista de entradas
-//Precondicion:
+//Descripcion: Obtiene la transaccion de la lista de salidas
+//Precondicion:  Si el indice esta fuera de rango debe devolver null
 //Postcondicion:
 TransactionOutput * Transaction::getTransactionOutput(int index){
-	if( index < this->n_tx_out )
+	if( index >= 0  || index < this->n_tx_out )
 		return &(this->pOutputs[index]);
 	else
-		return NULL
+		return NULL;
 }

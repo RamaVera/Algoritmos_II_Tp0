@@ -9,9 +9,20 @@
 #define TRANSACTIONOUTPUT_H_
 
 class TransactionOutput {
+private:
+	float value;
+	char * addr;
 public:
+	//---Constructores---//
 	TransactionOutput();
-	virtual ~TransactionOutput();
+	~TransactionOutput();
+	//---Getters---//
+	float getValue(void) const;
+	const char* getAddr(void) const;
+	//---Setters---//
+	void setValue(float value);
+	void setAddr(char* addr);
+	//---Otros---//
 };
 
 #endif /* TRANSACTIONOUTPUT_H_ */

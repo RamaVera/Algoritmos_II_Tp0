@@ -4,7 +4,7 @@ PROGR = miner.exe # Nombre del archivo ejecutable
 CPPFLAGS = -g -Wall -pedantic # -g opcion de g++ para debugear
 
 # Compiladores #
-CC = g++ -std=c++11 # Para linux
+CC = g++ -std=c++17 # Para linux
 CCW = i686-w64-mingw32-g++ --static # Para windows (requiere mingw32)
 
 $(PROGR) : $(OBJECTS)

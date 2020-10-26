@@ -23,10 +23,10 @@ public:
 	TransactionInput();
 	~TransactionInput();
 	//---Getters---//
-	outpoint_t getOutpoint(void) const;
-	char* getTxId(void) const;
+	const outpoint_t getOutpoint(void) const;
+	const char* getTxId(void) const;
 	int getIdx(void) const;
-	char* getAddr(void) const;
+	const char* getAddr(void) const;
 	//---Setters---//
 	void setOutpoint(const outpoint_t & Outpoint);
 	void setTxId(char* tx_id);
