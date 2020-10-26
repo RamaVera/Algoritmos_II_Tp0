@@ -1,7 +1,7 @@
 
 OBJECTS = main.o cmdline.o TransactionInput.o TransactionOutput.o Transaction.o Block.o BlockChainBuilder.o BlockChainFileManager.o BlockChainManager.o # Los archivos compilados individuales
 PROGR = miner.exe # Nombre del archivo ejecutable
-CPPFLAGS = -g -Wall # -g opcion de g++ para debugear
+CPPFLAGS = -g -Wall -pedantic # -g opcion de g++ para debugear
 
 # Compiladores #
 CC = g++ -std=c++11 # Para linux
@@ -19,9 +19,9 @@ BlockChainFileManager.o : BlockChainFileManager.cpp BlockChainFileManager.h Bloc
 	$(CC) $(CPPFLAGS) -c BlockChainFileManager.cpp
 BlockChainBuilder.o : BlockChainBuilder.cpp BlockChainBuilder.h Block.h Transaction.h
 	$(CC) $(CPPFLAGS) -c BlockChainBuilder.cpp
-Block.o : Block.cpp Block.h Transaction.h
+Block.o : Block.cpp Block.h Transaction.h Vector.h
 	$(CC) $(CPPFLAGS) -c Block.cpp
-Transaction.o : Transaction.cpp Transaction.h TransactionOutput.h TransactionInput.h
+Transaction.o : Transaction.cpp Transaction.h TransactionOutput.h TransactionInput.h 
 	$(CC) $(CPPFLAGS) -c Transaction.cpp
 TransactionOutput.o : TransactionOutput.cpp TransactionOutput.h
 	$(CC) $(CPPFLAGS) -c TransactionOutput.cpp
