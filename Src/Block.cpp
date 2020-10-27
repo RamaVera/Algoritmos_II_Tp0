@@ -4,17 +4,17 @@
 #include "Vector.h"
 #include "Block.h"
 #include "TiposHash.h"
+#include "Transaction.h"
 
 // Constructores
 Block::Block() {
-	// body = NULL;
+	Trans = new Transaction;
 }
 
 // Destructor
 Block::~Block() {
-	// Debo destruir el objeto Body llamando a su destructor;
-	// body.destroy();
-	// delete body;  
+	// Debo destruir el objeto Transaction llamando a su destructor;
+	delete Trans;  
 }
 
 // Getters
@@ -31,7 +31,7 @@ string Block::gettxns_hash() {
 	return txns_hash;
 }
 
-string Block::getbits() {
+unsigned int Block::getbits() {
 	return bits;
 }
 
@@ -39,14 +39,15 @@ string Block::getnonce() {
 	return nonce;
 }
 
+// Setters
 bool Block::setpre_block( string valor ) {
 	if ( valor.empty() ) {
 		pre_block = "";
-		// Hay que anorar, en un status ?, el error o disparar un throw
+		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
-			  2) Chequear que cada byte sea un caracter hexa válido.
+		   2) Chequear que cada byte sea un caracter hexa válido.
 		*/
 		if ( Block::CheckPreBlock( valor ) ) {
 			pre_block = valor;
@@ -55,6 +56,46 @@ bool Block::setpre_block( string valor ) {
 	return true;
 }
 
+bool Block::settxns_hash( string valor ) {
+	if ( valor.empty() ) {
+		txns_hash = "";
+		// Hay que anotar, en un status ?, el error o disparar un throw
+	}
+	else {
+		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
+		   2) Chequear que cada byte sea un caracter hexa válido.
+		*/
+		if ( Block::CheckPreBlock( valor ) ) /* Es otro hash de 32 bytes */ {
+			txns_hash = valor;
+		}
+	}
+	return true;
+}
+
+bool Block::setbits( unsigned int valor ) {
+	if ( !valor ) {
+		bits =0;
+		// Hay que anotar, en un status ?, el error o disparar un throw
+	}
+	else {
+		bits = valor;
+	}
+	return true;
+}
+
+bool Block::setnonce( string valor ) {
+	if ( valor.empty() ) {
+		nonce = "";
+		// Hay que anotar, en un status ?, el error o disparar un throw
+	}
+	else {
+		/* No se valida nada, puede ser cualquier dato */
+		nonce = valor;
+	}
+	return true;
+}
+
+// Métodos generales de uso público
 bool Block::CheckHash( string valor, TiposHash Tipo ) {
 	if ( valor.empty() ) {
 		return false;
@@ -80,6 +121,7 @@ void Block::RecalculoHash() {
 	return;
 }
 
+// Funciones Private Auxiliares
 bool Block::CheckPreBlock( string valor ) {
 	/* Esta deberia ser más generica para hacer un check de Hash de distinas longitudes
 		Podría meterse en un Enum o en #define o en Const int más estilo c++

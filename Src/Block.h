@@ -2,6 +2,7 @@
 
 #include<string>
 #include "TiposHash.h"
+#include "Transaction.h"
 
 using namespace std;
 
@@ -14,10 +15,10 @@ class Block {
 		// Atributos Seccion Header
 		string pre_block;
 		string txns_hash;
-		string bits;
+		unsigned int bits;	/* La dificultad de bits */
 		string nonce;
-		// Atributos Seccion Body
-		// Body *body;	// Puntero a un objeto clase body.
+		// Atributos Seccion Transaction
+		Transaction  *Trans;	// Puntero a un objeto clase Transaction .
 		bool CheckPreBlock( string valor );
 		int CheckHexa( string value );
     public:
@@ -29,12 +30,12 @@ class Block {
         int getCantTransacciones();
 		string getpre_block();
 		string gettxns_hash();
-		string getbits();
+		unsigned int getbits();
 		string getnonce();
 		// Setters
 		bool setpre_block( string valor );
 		bool settxns_hash( string valor );
-		bool setbits( string valorbits );
+		bool setbits( unsigned int valor );
 		bool setnonce( string valor );
 		// Métodos
 		void RecalculoHash();
