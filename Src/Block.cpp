@@ -3,6 +3,7 @@
 #include<string>
 #include "Vector.h"
 #include "Block.h"
+#include "TiposHash.h"
 
 // Constructores
 Block::Block() {

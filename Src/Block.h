@@ -1,11 +1,7 @@
 //Archivo fuente header clase Block / AlgoBlock del tp0 para la materia 9512 Algoritmos y Programación 2.
 
-#include <string>
-
-enum TiposHash {
-	clavehash256,
-	clavefirma,
-};
+#include<string>
+#include "TiposHash.h"
 
 using namespace std;
 
