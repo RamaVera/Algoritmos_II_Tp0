@@ -3,6 +3,7 @@
 #include<string>
 #include "TiposHash.h"
 #include "Transaction.h"
+#include "lista.h"
 
 using namespace std;
 
@@ -17,8 +18,11 @@ class Block {
 		string txns_hash;
 		unsigned int bits;	/* La dificultad de bits */
 		string nonce;
-		// Atributos Seccion Transaction
-		Transaction  *Trans;	// Puntero a un objeto clase Transaction .
+		// Atributos Seccion Body;
+		unsigned int txn_count;
+		lista <Transaction> ListaTran;
+		Transaction *CurTran;
+		// Métodos privados
 		bool CheckPreBlock( string valor );
 		int CheckHexa( string value );
     public:

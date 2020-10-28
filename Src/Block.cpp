@@ -8,13 +8,14 @@
 
 // Constructores
 Block::Block() {
-	Trans = new Transaction;
+	lista <Transaction> ListaTran;
+	this->CurTran = NULL;
+	this->txn_count = 0;
 }
 
 // Destructor
 Block::~Block() {
-	// Debo destruir el objeto Transaction llamando a su destructor;
-	delete Trans;  
+	// Debo destruir el objeto Transaction llamando a su destructor?
 }
 
 // Getters
@@ -24,25 +25,25 @@ int Block::getCantTransacciones() {
 }
 
 string Block::getpre_block() {
-	return pre_block;
+	return this->pre_block;
 }
 
 string Block::gettxns_hash() {
-	return txns_hash;
+	return this->txns_hash;
 }
 
 unsigned int Block::getbits() {
-	return bits;
+	return this->bits;
 }
 
 string Block::getnonce() {
-	return nonce;
+	return this->nonce;
 }
 
 // Setters
 bool Block::setpre_block( string valor ) {
 	if ( valor.empty() ) {
-		pre_block = "";
+		this->pre_block = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
@@ -50,7 +51,7 @@ bool Block::setpre_block( string valor ) {
 		   2) Chequear que cada byte sea un caracter hexa válido.
 		*/
 		if ( Block::CheckPreBlock( valor ) ) {
-			pre_block = valor;
+			this->pre_block = valor;
 		}
 	}
 	return true;
@@ -58,7 +59,7 @@ bool Block::setpre_block( string valor ) {
 
 bool Block::settxns_hash( string valor ) {
 	if ( valor.empty() ) {
-		txns_hash = "";
+		this->txns_hash = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
@@ -66,7 +67,7 @@ bool Block::settxns_hash( string valor ) {
 		   2) Chequear que cada byte sea un caracter hexa válido.
 		*/
 		if ( Block::CheckPreBlock( valor ) ) /* Es otro hash de 32 bytes */ {
-			txns_hash = valor;
+			this->txns_hash = valor;
 		}
 	}
 	return true;
@@ -74,23 +75,23 @@ bool Block::settxns_hash( string valor ) {
 
 bool Block::setbits( unsigned int valor ) {
 	if ( !valor ) {
-		bits =0;
+		this->bits = 0;
 		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
-		bits = valor;
+		this->bits = valor;
 	}
 	return true;
 }
 
 bool Block::setnonce( string valor ) {
 	if ( valor.empty() ) {
-		nonce = "";
+		this->nonce = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
 		/* No se valida nada, puede ser cualquier dato */
-		nonce = valor;
+		this->nonce = valor;
 	}
 	return true;
 }
