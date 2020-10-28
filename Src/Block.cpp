@@ -5,6 +5,7 @@
 #include "Block.h"
 #include "TiposHash.h"
 #include "Transaction.h"
+#include "sha256.h"
 
 // Constructores
 Block::Block() {
@@ -119,6 +120,8 @@ bool Block::CheckHash( string valor, TiposHash Tipo ) {
 
 void Block::RecalculoHash() {
 	// ToDo
+	string cadena;
+	this->txns_hash = sha256(cadena);
 	return;
 }
 
