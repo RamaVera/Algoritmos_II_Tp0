@@ -123,7 +123,19 @@ bool Block::CheckHash( string valor, TiposHash Tipo ) {
 
 void Block::RecalculoHash() {
 	// ToDo
-	std::string cadena = sha256( this->pre_block );
+	std::string cadena = "";
+	if ( ! ListaTran.vacia() ) {
+		lista <Transaction>::iterador it;
+		// Itero la lista para recuperar todos los strings de la coleccion Transaction
+		it = it = ListaTran.primero();
+		while ( ! it.extremo() ) {
+			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string.
+			it.avanzar();
+		}
+	}
+	if ( cadena.length() > 0  ) {
+		this->txns_hash = sha256( cadena );
+	}
 }
 
 // Funciones Private Auxiliares
