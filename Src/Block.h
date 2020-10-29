@@ -25,6 +25,7 @@ class Block {
 		// Métodos privados
 		bool CheckPreBlock( string valor );
 		int CheckHexa( string value );
+		// StatusBlock eBlock;
     public:
         // Constructores
         Block();
@@ -44,4 +45,6 @@ class Block {
 		// Métodos
 		void RecalculoHash();
 		bool CheckHash( string valor, TiposHash Tipo = clavehash256 );
+		// StatusBlock EstatusBlock();
+		// bool Minando();
 };

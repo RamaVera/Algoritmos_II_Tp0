@@ -1,6 +1,8 @@
 //Archivo fuente clase Block / AlgoBlock del tp0 para la materia 9512 Algoritmos y Programación 2.
 
 #include<string>
+#include <cstdlib>
+
 #include "Vector.h"
 #include "Block.h"
 #include "TiposHash.h"
@@ -12,6 +14,7 @@ Block::Block() {
 	lista <Transaction> ListaTran;
 	this->CurTran = NULL;
 	this->txn_count = 0;
+	// this->eBlock = BlockSinDatos;
 }
 
 // Destructor
@@ -120,9 +123,7 @@ bool Block::CheckHash( string valor, TiposHash Tipo ) {
 
 void Block::RecalculoHash() {
 	// ToDo
-	string cadena;
-	this->txns_hash = sha256(cadena);
-	return;
+	std::string cadena = sha256( this->pre_block );
 }
 
 // Funciones Private Auxiliares
