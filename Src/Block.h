@@ -14,8 +14,8 @@ class Block {
     // Métodos
 	private:
 		// Atributos Seccion Header
-		string pre_block;
-		string txns_hash;
+		std::string pre_block;
+		std::string txns_hash;
 		unsigned int bits;	/* La dificultad de bits */
 		string nonce;
 		// Atributos Seccion Body;
@@ -25,7 +25,8 @@ class Block {
 		// Métodos privados
 		bool CheckPreBlock( string valor );
 		int CheckHexa( string value );
-		// StatusBlock eBlock;
+		StatusBlock eBlock;
+		std::string Calculononce();
     public:
         // Constructores
         Block();
@@ -33,18 +34,18 @@ class Block {
         ~Block();
 		// Getters
         int getCantTransacciones();
-		string getpre_block();
-		string gettxns_hash();
+		std::string getpre_block();
+		std::string gettxns_hash();
 		unsigned int getbits();
-		string getnonce();
+		std::string getnonce();
 		// Setters
 		bool setpre_block( string valor );
 		bool settxns_hash( string valor );
 		bool setbits( unsigned int valor );
 		bool setnonce( string valor );
 		// Métodos
-		void RecalculoHash();
+		std::string RecalculoHash();
 		bool CheckHash( string valor, TiposHash Tipo = clavehash256 );
-		// StatusBlock EstatusBlock();
-		// bool Minando();
+		StatusBlock EstatusBlock();
+		bool Minando();
 };
