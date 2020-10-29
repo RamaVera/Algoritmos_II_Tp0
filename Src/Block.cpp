@@ -3,7 +3,6 @@
 #include<string>
 #include <cstdlib>
 
-#include "Vector.h"
 #include "Block.h"
 #include "TiposHash.h"
 #include "Transaction.h"
@@ -28,11 +27,11 @@ int Block::getCantTransacciones() {
 	return 0;
 }
 
-string Block::getpre_block() {
+std::string Block::getpre_block() {
 	return this->pre_block;
 }
 
-string Block::gettxns_hash() {
+std::string Block::gettxns_hash() {
 	return this->txns_hash;
 }
 
@@ -40,12 +39,12 @@ unsigned int Block::getbits() {
 	return this->bits;
 }
 
-string Block::getnonce() {
+std::string Block::getnonce() {
 	return this->nonce;
 }
 
 // Setters
-bool Block::setpre_block( string valor ) {
+bool Block::setpre_block( std::string valor ) {
 	if ( valor.empty() ) {
 		this->pre_block = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
@@ -61,7 +60,7 @@ bool Block::setpre_block( string valor ) {
 	return true;
 }
 
-bool Block::settxns_hash( string valor ) {
+bool Block::settxns_hash( std::string valor ) {
 	if ( valor.empty() ) {
 		this->txns_hash = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
@@ -88,7 +87,7 @@ bool Block::setbits( unsigned int valor ) {
 	return true;
 }
 
-bool Block::setnonce( string valor ) {
+bool Block::setnonce( std::string valor ) {
 	if ( valor.empty() ) {
 		this->nonce = "";
 		// Hay que anotar, en un status ?, el error o disparar un throw
@@ -101,7 +100,7 @@ bool Block::setnonce( string valor ) {
 }
 
 // Métodos generales de uso público
-bool Block::CheckHash( string valor, TiposHash Tipo ) {
+bool Block::CheckHash( std::string valor, TiposHash Tipo ) {
 	if ( valor.empty() ) {
 		return false;
 	}
@@ -125,8 +124,10 @@ std::string Block::RecalculoHash() {
 	std::string cadena = "";
 	if ( ! ListaTran.vacia() ) {
 		lista <Transaction>::iterador it;
-		// Itero la lista para recuperar todos los strings de la coleccion Transaction
-		it = it = ListaTran.primero();
+		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
+		   que necesito para calcular el Hash.
+		*/
+		it = ListaTran.primero();
 		while ( ! it.extremo() ) {
 			// ToDo
 			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string en la Clase Transaction.
@@ -138,10 +139,15 @@ std::string Block::RecalculoHash() {
 
 bool Block::Minando() {
 	std::string resultado = "";
-	resultado = this->RecalculoHash();
-	// resultado += Calculononce();
-	if ( resultado.length() > 0  ) {
-		this->txns_hash = sha256( resultado );
+	while ( true ) {
+		resultado = this->RecalculoHash();
+		resultado += Calculononce();
+		if ( resultado.length() > 0  ) {
+			this->txns_hash = sha256( resultado );
+		}
+		if ( CalculoBits( this->txns_hash, this->bits ) ) {
+			break;
+		}
 	}
 	// ToDo Repetir un bucle donde se invoque a Calculononce() si el el error > this->bits
 	return false;
@@ -149,13 +155,17 @@ bool Block::Minando() {
 
 // Funciones Private Auxiliares
 
-std::string Calculononce() {
+bool Block::CalculoBits( std::string hash, unsigned int bits ) {
+	return true;
+}
+
+std::string Block::Calculononce() {
 	static int contador = 0;
 	contador++;
 	return std::to_string( contador );
 }
 
-bool Block::CheckPreBlock( string valor ) {
+bool Block::CheckPreBlock( std::string valor ) {
 	/* Esta deberia ser más generica para hacer un check de Hash de distinas longitudes
 		Podría meterse en un Enum o en #define o en Const int más estilo c++
 	*/
