@@ -133,19 +133,28 @@ std::string Block::RecalculoHash() {
 			it.avanzar();
 		}
 	}
-	if ( cadena.length() > 0  ) {
-		this->txns_hash = sha256( cadena );
-	}
 	return cadena;
 }
 
 bool Block::Minando() {
 	std::string resultado = "";
 	resultado = this->RecalculoHash();
+	// resultado += Calculononce();
+	if ( resultado.length() > 0  ) {
+		this->txns_hash = sha256( resultado );
+	}
+	// ToDo Repetir un bucle donde se invoque a Calculononce() si el el error > this->bits
 	return false;
 }
 
 // Funciones Private Auxiliares
+
+std::string Calculononce() {
+	static int contador = 0;
+	contador++;
+	return std::to_string( contador );
+}
+
 bool Block::CheckPreBlock( string valor ) {
 	/* Esta deberia ser más generica para hacer un check de Hash de distinas longitudes
 		Podría meterse en un Enum o en #define o en Const int más estilo c++
