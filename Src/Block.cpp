@@ -121,21 +121,28 @@ bool Block::CheckHash( string valor, TiposHash Tipo ) {
 	}
 }
 
-void Block::RecalculoHash() {
-	// ToDo
+std::string Block::RecalculoHash() {
 	std::string cadena = "";
 	if ( ! ListaTran.vacia() ) {
 		lista <Transaction>::iterador it;
 		// Itero la lista para recuperar todos los strings de la coleccion Transaction
 		it = it = ListaTran.primero();
 		while ( ! it.extremo() ) {
-			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string.
+			// ToDo
+			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string en la Clase Transaction.
 			it.avanzar();
 		}
 	}
 	if ( cadena.length() > 0  ) {
 		this->txns_hash = sha256( cadena );
 	}
+	return cadena;
+}
+
+bool Block::Minando() {
+	std::string resultado = "";
+	resultado = this->RecalculoHash();
+	return false;
 }
 
 // Funciones Private Auxiliares
