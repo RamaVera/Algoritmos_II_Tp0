@@ -15,13 +15,6 @@
 
 using namespace std;
 
-constexpr string::size_type LargoHashEstandar = 64;
-constexpr string::size_type LargoHashFirma    = 40;	// Hash Pública de la Cuenta
-
-#ifndef M_PI
-	#define M_PI	3.14159265358979323846
-#endif
-
 //Prototipos para la utilizacion de la clase cmdline.
 static void opt_input(string const &);
 static void opt_output(string const &);
@@ -42,7 +35,7 @@ static ostream *oss = 0; //Output Stream (clase para manejo de los flujos de sal
 static fstream ifs; //Input File Stream (derivada de la clase ifstream que deriva de istream para el manejo de archivos).
 static fstream ofs; //Output File Stream (derivada de la clase ofstream que deriva de ostream para el manejo de archivos).
 
-//Declaracion de los prototipos utilizados anteriormente.
+//Declaración de los prototipos utilizados anteriormente.
 
 static void
 opt_input(string const &arg)
