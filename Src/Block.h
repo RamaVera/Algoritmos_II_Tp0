@@ -1,3 +1,6 @@
+
+#ifndef BLOCK_H_
+#define BLOCK_H_
 //Archivo fuente header clase Block / AlgoBlock del tp0 para la materia 9512 Algoritmos y Programación 2.
 
 #include<string>
@@ -52,3 +55,5 @@ class Block {
 		bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 );
 		bool Minando();
 };
+
+#endif
