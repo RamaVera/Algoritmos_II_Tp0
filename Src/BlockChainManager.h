@@ -8,12 +8,16 @@
 #ifndef BLOCKCHAINMANAGER_H_
 #define BLOCKCHAINMANAGER_H_
 
+#include <iostream>
+#include  "BlockChainStatus.h"
 
 
 class BlockChainManager {
-
-	BlockChainManager();
-	virtual ~BlockChainManager();
+private:
+	status_t state;
+public:
+	static void	proccesBlockChain( std::istream *iss, std::ostream *oss );
+	static void	proccesStatus( status_t status );
 
 };
 
