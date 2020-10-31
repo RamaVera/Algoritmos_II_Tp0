@@ -23,9 +23,10 @@ class Block {
 		lista <Transaction> ListaTran;
 		Transaction *CurTran;
 		// Métodos privados
+		StatusBlock eBlock;
+		// Métodos a trasladar
 		bool CheckPreBlock( std::string valor );
 		int CheckHexa( std::string value );
-		StatusBlock eBlock;
 		std::string Calculononce();
 		bool CalculoBits( std::string hash, unsigned int bits );
     public:
@@ -45,8 +46,9 @@ class Block {
 		bool setbits( unsigned int valor );
 		bool setnonce( std::string valor );
 		// Métodos
-		std::string RecalculoHash();
-		bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 );
 		StatusBlock EstatusBlock();
+		std::string RecalculoHash();
+		// Métodos a trasladar
+		bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 );
 		bool Minando();
 };
