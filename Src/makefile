@@ -4,13 +4,13 @@ CXX = g++
 
 all: tp0
 
-tp0: main.cpp TiposHash.h Transaction.h TransactionInput.h TransactionOutput.h lista.h sha256.h vector.h Block.o Transaction.o TransactionInput.o TransactionOutput.o cmdline.o
-	$(CXX) $(CXXFLAGS) -o tp0 main.cpp Block.o cmdline.o Transaction.o TransactionInput.o TransactionOutput.o
-
 cmdline.o: cmdline.cc cmdline.h
 	$(CXX) $(CXXFLAGS) -c cmdline.cc
 
-Block.o: Block.cpp Block.h lista.h sha256.h
+sha256.o: sha256.cpp sha256.h
+	$(CXX) $(CXXFLAGS) -c sha256.cpp
+
+Block.o: Block.cpp Block.h lista.h sha256.h Transaction.h TiposHash.h
 	$(CXX) $(CXXFLAGS) -c Block.cpp
 
 Transaction.o: Transaction.cpp Transaction.h
@@ -19,8 +19,20 @@ Transaction.o: Transaction.cpp Transaction.h
 TransactionInput.o: TransactionInput.cpp TransactionInput.h
 	$(CXX) $(CXXFLAGS) -c TransactionInput.cpp
 
-Transaction.o: TransactionOutput.cpp TransactionOutput.h
+TransactionOutput.o: TransactionOutput.cpp TransactionOutput.h
 	$(CXX) $(CXXFLAGS) -c TransactionOutput.cpp
+
+BlockChainManager.o: BlockChainManager.cpp BlockChainManager.h
+	$(CXX) $(CXXFLAGS) -c BlockChainManager.cpp
+
+BlockChainBuilder.o: BlockChainBuilder.cpp BlockChainBuilder.h
+	$(CXX) $(CXXFLAGS) -c BlockChainBuilder.cpp
+
+BlockChainFileManager.o: BlockChainFileManager.cpp BlockChainFileManager.h
+	$(CXX) $(CXXFLAGS) -c BlockChainFileManager.cpp
+
+tp0: main.cpp BlockChainManager.h BlockChainBuilder.h BlockChainFileManager.h TiposHash.h Transaction.h TransactionInput.h TransactionOutput.h lista.h sha256.h vector.h sha256.o Block.o Transaction.o TransactionInput.o TransactionOutput.o cmdline.o BlockChainManager.o BlockChainBuilder.o BlockChainFileManager.o
+	$(CXX) $(CXXFLAGS) -o tp0 main.cpp sha256.o Block.o cmdline.o BlockChainManager.o BlockChainBuilder.o BlockChainFileManager.o Transaction.o TransactionInput.o TransactionOutput.o
 
 clean:
 	rm -f *.o tp0

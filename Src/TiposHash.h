@@ -6,4 +6,12 @@ enum TiposHash {
 	clavefirma,
 };
 
+enum StatusBlock {
+	BlockSinDatos,
+	BlockCambiosPendientes,
+	BlockCalculandoHash,
+	BlockEstadoError,
+	BlockEstadoOk,
+};
+
 #endif

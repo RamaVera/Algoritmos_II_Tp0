@@ -2,21 +2,20 @@
 #include <iostream>
 
 #include "Block.h"
-#include "Vector.h"
 #include "TiposHash.h"
 
 using namespace std;
 
-bool CheckPreBlock( string valor );
-int CheckHexa( string value );
-bool CheckHash( string valor, TiposHash Tipo );
+bool CheckPreBlock( std::string valor );
+int CheckHexa( std::string value );
+bool CheckHash( std::string valor, TiposHash Tipo );
 
 extern const string::size_type LargoHashEstandar;  // -> Block.h
 extern const string::size_type LargoHashFirma;	   // Hash Pública de la Cuenta definida en Block.h
 
 int main() {
-	string Hash = "e9dc0f0fbcb9021dc39ec104dfa51e813a86c8205a77d3be6c8cd6140b941e0c";
-	string Dir = "f680e0021dcaf15d161604378236937225eeecae85cc3f";
+	std::string Hash = "e9dc0f0fbcb9021dc39ec104dfa51e813a86c8205a77d3be6c8cd6140b941e0c";
+	std::string Dir = "f680e0021dcaf15d161604378236937225eeecae85cc3f";
 
 	if ( CheckPreBlock( Hash ) ) {
 		cout << "Ok 1" << std::endl;
@@ -37,7 +36,7 @@ int main() {
 	
 }
 
-bool CheckHash( string valor, TiposHash Tipo = clavehash256 ) {
+bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 ) {
 	if ( valor.empty() ) {
 		return false;
 	}
@@ -57,7 +56,7 @@ bool CheckHash( string valor, TiposHash Tipo = clavehash256 ) {
 	}
 }
 
-bool CheckPreBlock( string valor ) {
+bool CheckPreBlock( std::string valor ) {
 /* Esta deberia ser más genérica para hacer un check de Hash de distinas longitudes
 	Podría meterse en un Enum o en #define o en Const int más estilo C++
 */
@@ -77,7 +76,7 @@ bool CheckPreBlock( string valor ) {
 	}
 }
 
-int CheckHexa( string valor ) {
+int CheckHexa( std::string valor ) {
 	unsigned int i;
 	for (i = 0; i != valor.length(); ++i) {
 		if ( ! isxdigit ( valor[i] ) ) break;

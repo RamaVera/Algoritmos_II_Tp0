@@ -14,17 +14,21 @@ class Block {
     // Métodos
 	private:
 		// Atributos Seccion Header
-		string pre_block;
-		string txns_hash;
+		std::string pre_block;
+		std::string txns_hash;
 		unsigned int bits;	/* La dificultad de bits */
-		string nonce;
+		std::string nonce;
 		// Atributos Seccion Body;
 		unsigned int txn_count;
 		lista <Transaction> ListaTran;
 		Transaction *CurTran;
 		// Métodos privados
-		bool CheckPreBlock( string valor );
-		int CheckHexa( string value );
+		StatusBlock eBlock;
+		// Métodos a trasladar
+		bool CheckPreBlock( std::string valor );
+		int CheckHexa( std::string value );
+		std::string Calculononce();
+		bool CalculoBits( std::string hash, unsigned int bits );
     public:
         // Constructores
         Block();
@@ -32,16 +36,19 @@ class Block {
         ~Block();
 		// Getters
         int getCantTransacciones();
-		string getpre_block();
-		string gettxns_hash();
+		std::string getpre_block();
+		std::string gettxns_hash();
 		unsigned int getbits();
-		string getnonce();
+		std::string getnonce();
 		// Setters
-		bool setpre_block( string valor );
-		bool settxns_hash( string valor );
+		bool setpre_block( std::string valor );
+		bool settxns_hash( std::string valor );
 		bool setbits( unsigned int valor );
-		bool setnonce( string valor );
+		bool setnonce( std::string valor );
 		// Métodos
-		void RecalculoHash();
-		bool CheckHash( string valor, TiposHash Tipo = clavehash256 );
+		StatusBlock EstatusBlock();
+		std::string RecalculoHash();
+		// Métodos a trasladar
+		bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 );
+		bool Minando();
 };
