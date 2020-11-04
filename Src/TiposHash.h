@@ -1,12 +1,12 @@
 #ifndef _TiposHash_INCLUDED_
 #define _TiposHash_INCLUDED_
 
-enum TiposHash {
+enum class TiposHash {
 	clavehash256,
 	clavefirma,
 };
 
-enum StatusBlock {
+enum class StatusBlock {
 	BlockSinDatos,
 	BlockCambiosPendientes,
 	BlockCalculandoHash,

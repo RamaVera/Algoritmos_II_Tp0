@@ -61,7 +61,7 @@ int main(int argc, char * const argv[]){
 
 	//------Le paso los archivos al Manager ------//
 
-	//BlockChainManager::proccesBlockChain(iss,oss);
+	BlockChainManager::proccesBlockChain(iss,oss);
 
 	return 0;
 }

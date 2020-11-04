@@ -14,7 +14,16 @@
 #include "BlockChainStatus.h"
 #include "BlockChainBuilder.h"
 
-typedef int raw_t;
+typedef struct{
+	int inTx;
+	std::string * tableOfTxId;
+	int * tableOfIndex ;
+	std::string * tableOfAddr;
+	int outTx;
+	float * tableOfValues;
+	std::string * tableOfAdd;
+} raw_t;
+
 typedef int blockchain_t;
 
 class BlockChainFileManager {

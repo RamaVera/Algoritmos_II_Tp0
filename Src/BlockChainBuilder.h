@@ -8,27 +8,38 @@
 #ifndef BLOCKCHAINBUILDER_H_
 #define BLOCKCHAINBUILDER_H_
 
-
-#include<string>
-
 #include "TiposHash.h"
-#include "lista.h"
 #include "Block.h"
 
 class BlockChainBuilder {
-	std::string Calculononce();
-	bool CalculoBits( std::string hash, unsigned int bits );
-	int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager
-	bool CheckHash( std::string valor, TiposHash Tipo = clavehash256 );
+private:	// Redundante pero más legible
+	//  Anterior
+	static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager 
 	// Datos privados
-	lista <Block> ListaBlocks;
 	Block BlocklActual;
+	lista <Block> ListaBlocks;
 	std::string hash_resultado;
-	unsigned int bits;	/* La dificultad de bits */
-public:
+	size_t bits;	/* La dificultad de bits */
+	//  Nuevo
+	bool CalculoBits( std::string hash, size_t bits );
 	bool Minando();
+	static std::string hex_str_to_bin_str( const std::string & hex );
+	static const char* hex_char_to_bin( char c );
+	static int dificultad( const std::string value, const size_t dif );  					// -1 -> Error
+	
+public:
 	BlockChainBuilder();
 	virtual ~BlockChainBuilder();
+		// Getters
+	unsigned int getbits();
+	// Setters
+	bool setbits( unsigned int valor );
+	// Métodos
+	unsigned int cantidadBlocks();
+	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
+	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
+	static std::string Calculononce();
+	
 };
 
 #endif /* BLOCKCHAINBUILDER_H_ */

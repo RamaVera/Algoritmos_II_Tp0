@@ -2,7 +2,10 @@
 #include <iostream>
 
 #include "Block.h"
-#include "Vector.h"
+#include "BlockChainBuilder.h"
+#include "lista.h"
+#include "TiposHash.h"
+#include "sha256.h"
 
 using namespace std;
 
@@ -21,29 +24,77 @@ int main() {
 		cout << "Ok 1" << std::endl;
 	}
 	
-	if ( CheckHash( Hash, clavehash256 ) ) {
+	if ( CheckHash( Hash, TiposHash::clavehash256 ) ) {
 		cout << "Ok 2" << std::endl;
 	}
 
-	if ( CheckHash( Dir, clavefirma ) ) {
+	if ( CheckHash( Dir, TiposHash::clavefirma ) ) {
 		cout << "Ok 3" << std::endl;
 	}
 
 	Dir = "f680e0021dcaf15d161604378236937225eeecae";
-	if ( CheckHash( Dir, clavefirma ) ) {
+	if ( CheckHash( Dir, TiposHash::clavefirma ) ) {
 		cout << "Ok 4" << std::endl;
 	}
-	
+
+	// Parte nueva
+	lista <Block> ListaBlocks;
+	Block Blockl1, Blockl2, Blockl3, BlocklActual;
+	if ( !Blockl1.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl1.settxns_hash( "e9dc0f0fbcb9021dc39ec104dfa51e813a86c8205a77d3be6c8cd6140b941e0c" ) ) return -1;
+	if ( !Blockl1.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl1 );
+	if ( !Blockl2.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl2.settxns_hash( "cd372fb85148700fa88095e3492d3f9f5beb43e555e5ff26d95f5a6adc36f8e6" ) ) return -1;
+	if ( !Blockl2.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl2 );
+	if ( !Blockl3.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl3.settxns_hash( "155dc94b29dce95bb2f940cdd2d7e0bce66dca9370c3ed96d50a30b3d84f8c4c" ) ) return -1;
+	if ( !Blockl3.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl3 );
+	if ( ! ListaBlocks.vacia() ) {
+		lista <Block>::iterador it;
+		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
+		   que necesito para calcular el Hash.
+		*/
+		it = ListaBlocks.primero();
+		do  {
+			BlocklActual = it.dato();
+			size_t contador = 0;
+			do {
+				std::string resultado = "", nonce, hash_resultado = "";
+				resultado = BlocklActual.gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
+				nonce = BlockChainBuilder::Calculononce();	// Cada llamada genera un nonce <>
+				if ( resultado.length() > 0 || nonce.length() ) {
+					int test;
+					hash_resultado = sha256( resultado + nonce );
+					test = BlockChainBuilder::CheckDificultadOk( hash_resultado, BlocklActual.getbits() );
+					if ( test == 1 ) {
+						cout << "Dificultad Ok < " << test << std::endl;
+						break;
+						}
+					else if ( test < 0 ) {
+						cout << "Error: " << test << std::endl;
+						}
+					else {
+						cout << "Dificultad < " << test << std::endl;
+					};
+				}
+				contador++;
+			} while ( contador < 100 /* Corte de iteraciones */ );
+			it.avanzar();
+		} while ( ! it.eol() );
+	}
 }
 
-bool CheckHash( string valor, TiposHash Tipo = clavehash256 ) {
+bool CheckHash( string valor, TiposHash Tipo = TiposHash::clavehash256 ) {
 	if ( valor.empty() ) {
 		return false;
 	}
-	else if ( Tipo  == clavehash256 && valor.length() != LargoHashEstandar ) {
+	else if ( Tipo  == TiposHash::clavehash256 && valor.length() != LargoHashEstandar ) {
 		return false;
 	}
-	else if ( Tipo  == clavefirma && valor.length() != LargoHashFirma ) {
+	else if ( Tipo  == TiposHash::clavefirma && valor.length() != LargoHashFirma ) {
 		return false;
 	}
 	else {

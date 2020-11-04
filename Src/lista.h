@@ -70,6 +70,8 @@ public:
 		iterador &avanzar();
 		iterador &retroceder();
 		bool extremo() const;
+		bool eol() const;	// Marcador del último elemento
+		bool bol() const;	// Marcador del primer elemento
 
 		bool operator==(const iterador &) const;
 		bool operator!=(const iterador &) const;
@@ -172,6 +174,19 @@ typename lista<T>::iterador &lista<T>::iterador::retroceder()
 	if (actual_)
 		actual_ = actual_->ant_;
 	return *this;
+}
+
+template<typename T>
+bool lista<T>::iterador::bol() const
+{
+	return actual_->ant_ == 0 ? true : false;
+}
+
+template<typename T>
+bool lista<T>::iterador::eol() const
+{
+	return actual_->sig_ == 0 ? true : false;
+	//return typename lista<T>::iterador(ult_);
 }
 
 template<typename T>

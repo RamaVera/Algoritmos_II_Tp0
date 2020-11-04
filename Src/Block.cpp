@@ -6,19 +6,21 @@
 #include "Block.h"
 #include "TiposHash.h"
 #include "Transaction.h"
-#include "sha256.h"
+#include "BlockChainBuilder.h"
 
 // Constructores
-Block::Block() {
+Block::Block() 
+	: pre_block(""), txns_hash(""), bits(3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos)
+{
 	lista <Transaction> ListaTran;
-	this->CurTran = NULL;
-	this->txn_count = 0;
+	// this->CurTran = NULL;
+	// this->txn_count = 0;
 	// this->eBlock = BlockSinDatos;
 }
 
 // Destructor
 Block::~Block() {
-	// Debo destruir el objeto Transaction llamando a su destructor?
+	// ListaTran se autodestruye
 }
 
 // Getters
@@ -53,7 +55,8 @@ bool Block::setpre_block( std::string valor ) {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
 		   2) Chequear que cada byte sea un caracter hexa válido.
 		*/
-		if ( Block::CheckPreBlock( valor ) ) {
+		//if ( this->CheckHash( valor, clavehash256 ) ) {
+		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) {
 			this->pre_block = valor;
 		}
 	}
@@ -69,7 +72,8 @@ bool Block::settxns_hash( std::string valor ) {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
 		   2) Chequear que cada byte sea un caracter hexa válido.
 		*/
-		if ( Block::CheckPreBlock( valor ) ) /* Es otro hash de 32 bytes */ {
+		// if ( this->CheckHash( valor, clavehash256 ) ) /* Es otro hash de 32 bytes */ {
+		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) /* Es otro hash de 32 bytes */ {
 			this->txns_hash = valor;
 		}
 	}
@@ -99,97 +103,20 @@ bool Block::setnonce( std::string valor ) {
 	return true;
 }
 
-// Métodos generales de uso público
-bool Block::CheckHash( std::string valor, TiposHash Tipo ) {
-	if ( valor.empty() ) {
-		return false;
-	}
-	else if ( Tipo  == clavehash256 && valor.length() != LargoHashEstandar ) {
-		return false;
-	}
-	else if ( Tipo  == clavefirma && valor.length() != LargoHashFirma ) {
-		return false;
-	}
-	else {
-		int i = CheckHexa( valor );
-		if ( i > 0 ) {
-			// Anotar la posición y valor del dígito erróneo
-			return false;
-		}
-		else return true;
-	}
-}
-
 std::string Block::RecalculoHash() {
 	std::string cadena = "";
 	if ( ! ListaTran.vacia() ) {
-		lista <Transaction>::iterador it;
+		// lista <Transaction>::iterador it();
+		lista <Transaction>::iterador it(ListaTran);
 		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
 		   que necesito para calcular el Hash.
 		*/
 		it = ListaTran.primero();
-		while ( ! it.extremo() ) {
+		while ( ! it.eol() ) {
 			// ToDo
 			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string en la Clase Transaction.
 			it.avanzar();
 		}
 	}
 	return cadena;
-}
-
-bool Block::Minando() {
-	std::string resultado = "";
-	while ( true ) {
-		resultado = this->RecalculoHash();
-		resultado += Calculononce();
-		if ( resultado.length() > 0  ) {
-			this->txns_hash = sha256( resultado );
-		}
-		if ( CalculoBits( this->txns_hash, this->bits ) ) {
-			break;
-		}
-	}
-	// ToDo Repetir un bucle donde se invoque a Calculononce() si el el error > this->bits
-	return false;
-}
-
-// Funciones Private Auxiliares
-
-bool Block::CalculoBits( std::string hash, unsigned int bits ) {
-	return true;
-}
-
-std::string Block::Calculononce() {
-	static int contador = 0;
-	contador++;
-	return std::to_string( contador );
-}
-
-bool Block::CheckPreBlock( std::string valor ) {
-	/* Esta deberia ser más generica para hacer un check de Hash de distinas longitudes
-		Podría meterse en un Enum o en #define o en Const int más estilo c++
-	*/
-	if ( valor.empty() ) {
-		return false;
-	}
-	else if ( valor.length() != LargoHashEstandar ) {
-		return false;
-	}
-	else {
-		int i = CheckHexa( valor );
-		if ( i > 0 ) {
-			// Anotar la posición y valor del dígito erróneo
-			return false;
-		}
-		else return true;
-	}
-}
-
-int Block::CheckHexa( string value ) {
-	unsigned int i;
-	for (i = 0; i != value.length(); ++i) {
-		if ( ! isxdigit ( value[i] ) ) break;
-	} 
-	if ( i < value.length() ) return i;
-	return 0;
 }

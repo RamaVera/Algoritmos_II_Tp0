@@ -4,10 +4,23 @@
  *  Created on: 25 oct. 2020
  *      Author: Ramiro
  */
+ 
+#include<string>
 
 #include "BlockChainManager.h"
 #include "BlockChainFileManager.h"
 #include "BlockChainBuilder.h"
+#include "Block.h"
+#include "lista.h"
+
+//BlockChainManager::BlockChainManager() {
+//	// TODO Auto-generated constructor stub
+//	lista <Block> ListaBlocks;
+//}
+
+//BlockChainManager::~BlockChainManager() {
+//	// TODO Auto-generated destructor stub
+//}
 
 void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
 	BlockChainBuilder builder;
