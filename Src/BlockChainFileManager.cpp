@@ -87,10 +87,78 @@ bool BlockChainFileManager::isEofFromStream(std::istream *iss){
 }
 
 
-status_t BlockChainFileManager::parse(std::istream * iss, raw_t * pRawData){
-	//@TODO
+status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pRawData){
+	//Vuelvo al principio del File para hacer la carga
+	iss->clear();
+	iss->seekg(0, iss->beg);
+
+	//Creo el archivo raw_t para el builder
+	pRawData = new raw_t{0};
+	if(pRawData == NULL) return STATUS_BAD_ALLOC;
+	pRawData->inTx = this->getTxIndexFromStream(iss,'\n');
+
+	pRawData->IN_tableOfTxId = new std::string[pRawData->inTx];
+	pRawData->IN_tableOfIndex = new int[pRawData->inTx];
+	pRawData->IN_tableOfAddr = new std::string[pRawData->inTx];
+	if(		pRawData->IN_tableOfTxId == NULL  ||
+			pRawData->IN_tableOfIndex == NULL ||
+			pRawData->IN_tableOfAddr == NULL ) 	return STATUS_BAD_ALLOC;
+
+	for(int i = 0; i < pRawData->inTx; i++)
+	{
+		pRawData->IN_tableOfTxId[i]  = this->getHashFromStream(iss,' ');
+		pRawData->IN_tableOfIndex[i] = this->getTxIndexFromStream(iss,' ');
+		pRawData->IN_tableOfAddr[i]  = this->getHashFromStream(iss);
+	}
+
+	pRawData->outTx = this->getTxIndexFromStream(iss,'\n');
+	pRawData->OUT_tableOfValues = new float[pRawData->outTx];
+	pRawData->OUT_tableOfAddr = new std::string[pRawData->outTx];
+	if(		pRawData->OUT_tableOfValues == NULL  ||
+			pRawData->OUT_tableOfAddr   == NULL  ) 	return STATUS_BAD_ALLOC;
+
+	for(int i = 0; i < pRawData->inTx; i++)
+	{
+		pRawData->OUT_tableOfValues[i]  = this->getBTCValueFromStream(iss,' ');
+		pRawData->OUT_tableOfAddr[i] = this->getHashFromStream(iss);
+	}
 	return STATUS_OK;
 }
+
+
+int BlockChainFileManager::getTxIndexFromStream(std::istream *iss,char delim)
+{
+	int IndexValue;
+	std::string line;
+	std::stringstream ss;
+
+	std::getline(*iss, line,delim);
+	ss.str(line);
+	ss >> IndexValue;
+	return IndexValue;
+}
+
+std::string BlockChainFileManager::getHashFromStream(std::istream *iss,char delim)
+{
+	std::string line;
+	std::stringstream ss;
+	std::getline(*iss, line,delim);
+	return line;
+}
+
+float BlockChainFileManager::getBTCValueFromStream(std::istream *iss,char delim)
+{
+	float floatValue;
+	std::string line;
+	std::stringstream ss;
+
+	std::getline(*iss, line,delim);
+	ss.str(line);
+	ss >> floatValue;
+	return floatValue;
+}
+
+
 
 status_t BlockChainFileManager::convert(std::ostream * iss, blockchain_t * pBlockChain){
 	//@TODO

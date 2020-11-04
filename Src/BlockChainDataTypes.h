@@ -12,12 +12,12 @@
 //Interfaz entre FileManager Hacia Builder
 typedef struct{
 	int inTx;
-	std::string * tableOfTxId;
-	int * tableOfIndex ;
-	std::string * tableOfAddr;
+	std::string * IN_tableOfTxId;
+	int * IN_tableOfIndex ;
+	std::string * IN_tableOfAddr;
 	int outTx;
-	float * tableOfValues;
-	std::string * tableOfAdd;
+	float * OUT_tableOfValues;
+	std::string * OUT_tableOfAddr;
 } raw_t;
 
 //TODO DEFINIR INTERFAZ ENTRE BUILDER HACIA FILEMANAGER

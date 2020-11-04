@@ -20,11 +20,14 @@ private:
 	bool isHashFromStream(std::istream *iss,char delim = '\n', std::string * pString = NULL);
 	bool isBTCValueFromStream(std::istream *iss,char delim = '\n', float * pFloat = NULL);
 	bool isEofFromStream(std::istream *iss);
+	int  getTxIndexFromStream(std::istream *iss,char delim = '\n');
+	std::string getHashFromStream(std::istream *iss,char delim = '\n');
+	float getBTCValueFromStream(std::istream *iss,char delim = '\n');
 public:
 	BlockChainFileManager();
 	~BlockChainFileManager();
 	status_t validate(std::istream * iss);
-	status_t parse(std::istream * iss,raw_t * pRawData);
+	status_t parse(std::istream * iss,raw_t * &pRawData);
 	status_t convert(std::ostream * oss,blockchain_t * pBlockChain);
 };
 

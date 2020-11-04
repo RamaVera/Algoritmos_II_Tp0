@@ -30,7 +30,7 @@ void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
 	BlockChainManager::proccesStatus( fileManager.validate(iss) );
 
 	std::cout<< "Begin Parsing ..." ;
-	//BlockChainManager::proccesStatus( fileManager.parse(iss,builder->getStructPointer()) );
+	BlockChainManager::proccesStatus( fileManager.parse(iss,builder.getRawPointer()) );
 
 	std::cout<< "Begin Creating Block ..." ;
 	//BlockChainManager::proccesStatus( builder.createBlockChain() );

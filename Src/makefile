@@ -1,4 +1,4 @@
-CXXARGS  = -Wall -Werror -pedantic
+CXXARGS  = -g -Wall -Werror -pedantic 
 CXXFLAGS = -I. $(CXXARGS)
 CXX = g++
 

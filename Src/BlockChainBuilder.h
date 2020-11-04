@@ -23,6 +23,7 @@ private:	// Redundante pero más legible
 	std::string hash_resultado;
 	size_t bits;	/* La dificultad de bits */
 	//  Nuevo
+	raw_t * pRawData;  // raw_t es el dato raw que devuelve filemanager. De aca builder saca los datos
 	bool CalculoBits( std::string hash, size_t bits );
 	bool Minando();
 	static std::string hex_str_to_bin_str( const std::string & hex );
@@ -34,6 +35,7 @@ public:
 	virtual ~BlockChainBuilder();
 		// Getters
 	unsigned int getbits();
+	raw_t *& getRawPointer(){return pRawData;}
 	// Setters
 	bool setbits( unsigned int valor );
 	// Métodos
