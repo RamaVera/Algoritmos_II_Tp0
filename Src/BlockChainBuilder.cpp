@@ -60,7 +60,7 @@ std::string BlockChainBuilder::Calculononce() {
 
 }
 
-bool BlockChainBuilder::CalculoBits( std::string hash, unsigned int bits ) {
+bool BlockChainBuilder::CalculoBits( std::string hash, size_t bits ) {
 	return true;
 }
 

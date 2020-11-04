@@ -30,13 +30,13 @@ void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
 	BlockChainManager::proccesStatus( fileManager.validate(iss) );
 
 	std::cout<< "Begin Parsing ..." ;
-	//BlockChainManager::proccesState( fileManager.parse(iss,builder->getStructPointer()) );
+	//BlockChainManager::proccesStatus( fileManager.parse(iss,builder->getStructPointer()) );
 
 	std::cout<< "Begin Creating Block ..." ;
-	//BlockChainManager::proccesState( builder.createBlockChain() );
+	//BlockChainManager::proccesStatus( builder.createBlockChain() );
 
 	std::cout<< "Begin Converting Block to File ..." ;
-	//BlockChainManager::proccesState( fileManager.convert(oss,builder->getBlockChainPointer()) );
+	//BlockChainManager::proccesStatus( fileManager.convert(oss,builder->getBlockChainPointer()) );
 
 }
 

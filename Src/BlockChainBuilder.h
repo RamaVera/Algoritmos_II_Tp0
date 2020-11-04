@@ -10,6 +10,8 @@
 
 #include "TiposHash.h"
 #include "Block.h"
+#include "BlockChainDataTypes.h"
+
 
 class BlockChainBuilder {
 private:	// Redundante pero más legible

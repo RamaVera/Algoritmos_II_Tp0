@@ -9,22 +9,10 @@
 #define BLOCKCHAINFILEMANAGER_H_
 
 #include <iostream>
-#include <string>
 #include <sstream>
 #include "BlockChainStatus.h"
 #include "BlockChainBuilder.h"
-
-typedef struct{
-	int inTx;
-	std::string * tableOfTxId;
-	int * tableOfIndex ;
-	std::string * tableOfAddr;
-	int outTx;
-	float * tableOfValues;
-	std::string * tableOfAdd;
-} raw_t;
-
-typedef int blockchain_t;
+#include "BlockChainDataTypes.h"
 
 class BlockChainFileManager {
 private:
