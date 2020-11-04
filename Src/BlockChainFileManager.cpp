@@ -117,7 +117,7 @@ status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pRawData){
 	if(		pRawData->OUT_tableOfValues == NULL  ||
 			pRawData->OUT_tableOfAddr   == NULL  ) 	return STATUS_BAD_ALLOC;
 
-	for(int i = 0; i < pRawData->inTx; i++)
+	for(int i = 0; i < pRawData->outTx; i++)
 	{
 		pRawData->OUT_tableOfValues[i]  = this->getBTCValueFromStream(iss,' ');
 		pRawData->OUT_tableOfAddr[i] = this->getHashFromStream(iss);
