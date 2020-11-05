@@ -12,7 +12,6 @@
 #include "Block.h"
 #include "BlockChainDataTypes.h"
 
-
 class BlockChainBuilder {
 private:	// Redundante pero más legible
 	//  Anterior
@@ -32,6 +31,7 @@ private:	// Redundante pero más legible
 	
 public:
 	BlockChainBuilder();
+	BlockChainBuilder(size_t d);
 	virtual ~BlockChainBuilder();
 		// Getters
 	unsigned int getbits();
@@ -43,7 +43,6 @@ public:
 	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
 	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
 	static std::string Calculononce();
-	
 };
 
 #endif /* BLOCKCHAINBUILDER_H_ */

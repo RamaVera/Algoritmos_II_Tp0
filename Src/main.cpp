@@ -147,11 +147,7 @@ static void opt_difficulty(string const &arg)
 	}
 	int num;
 	iss>>num;
-
-	// TODO Poner setter de BlockChainBuilder para pasar el numero de dificultad
-
-
-
+	BlockChainManager::setUserDefinedDifficulty(num);
 }
 
 static void

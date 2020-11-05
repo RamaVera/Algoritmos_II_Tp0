@@ -13,17 +13,8 @@
 #include "Block.h"
 #include "lista.h"
 
-//BlockChainManager::BlockChainManager() {
-//	// TODO Auto-generated constructor stub
-//	lista <Block> ListaBlocks;
-//}
-
-//BlockChainManager::~BlockChainManager() {
-//	// TODO Auto-generated destructor stub
-//}
-
 void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
-	BlockChainBuilder builder;
+	BlockChainBuilder builder(BlockChainManager::getUserDefinedDifficulty());
 	BlockChainFileManager fileManager;
 
 	std::cout<< "Begin Validate ...";
@@ -81,4 +72,22 @@ void BlockChainManager::proccesStatus(status_t status){
 		std::cout << std::endl;
 		break;
 	}
+}
+
+
+#define DIFFICULTY_DEFAULT_VALUE 3
+size_t BlockChainManager::userDefinedDifficulty = DIFFICULTY_DEFAULT_VALUE;
+
+void BlockChainManager::setUserDefinedDifficulty(int d){
+	if( d < 0 ){
+		std::cout << "Error de Formato: Dificultad debe ser mayor a cero " << std::endl;
+		std::cerr << "Error de Formato: Dificultad debe ser mayor a cero" << std::endl;
+		std::abort();
+	}
+	userDefinedDifficulty = (size_t) d;
+}
+
+
+size_t BlockChainManager::getUserDefinedDifficulty( void ){
+	return userDefinedDifficulty;
 }
