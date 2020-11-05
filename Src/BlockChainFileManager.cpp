@@ -10,13 +10,22 @@
 
 
 BlockChainFileManager::BlockChainFileManager() {
-	// TODO Auto-generated constructor stub
+	pRawData = NULL;
 }
 
 BlockChainFileManager::~BlockChainFileManager() {
-	// TODO Auto-generated destructor stub
+	if(this->pRawData != NULL){
+		pRawData->inTx = 0;
+		delete [] pRawData->IN_tableOfTxId; 		pRawData->IN_tableOfTxId    = NULL;
+		delete [] pRawData->IN_tableOfIndex;		pRawData->IN_tableOfIndex   = NULL;
+		delete [] pRawData->IN_tableOfAddr;			pRawData->IN_tableOfAddr    = NULL;
+		pRawData->outTx = 0;
+		delete [] pRawData->OUT_tableOfValues;		pRawData->OUT_tableOfValues = NULL;
+		delete [] pRawData->OUT_tableOfAddr;		pRawData->OUT_tableOfAddr   = NULL;
+		delete pRawData;
+		pRawData = NULL;
+	}
 }
-
 status_t BlockChainFileManager::validate(std::istream * iss){
 	int inTxTotal,outTxTotal;
 
@@ -87,13 +96,13 @@ bool BlockChainFileManager::isEofFromStream(std::istream *iss){
 }
 
 
-status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pRawData){
+status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pBuilderRawData){
 	//Vuelvo al principio del File para hacer la carga
 	iss->clear();
 	iss->seekg(0, iss->beg);
 
-	//Creo el archivo raw_t para el builder
-	pRawData = new raw_t{0};
+	//Creo el archivo raw_t en el entorno del filemanager
+	this->pRawData = new raw_t{0};
 	if(pRawData == NULL) return STATUS_BAD_ALLOC;
 	pRawData->inTx = this->getTxIndexFromStream(iss,'\n');
 
@@ -122,6 +131,9 @@ status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pRawData){
 		pRawData->OUT_tableOfValues[i]  = this->getBTCValueFromStream(iss,' ');
 		pRawData->OUT_tableOfAddr[i] = this->getHashFromStream(iss);
 	}
+
+	pBuilderRawData = this->pRawData;
+
 	return STATUS_OK;
 }
 
