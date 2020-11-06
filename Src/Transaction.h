@@ -11,6 +11,7 @@
 #include "TransactionInput.h"
 #include "TransactionOutput.h"
 #include "BlockChainDataTypes.h"
+#include "lista.h"
 
 class Transaction {
 private:
@@ -19,6 +20,9 @@ private:
 	int n_tx_out; 					//Indica cantidad total de outputs
 	TransactionOutput * pOutputs;		// Lista de outputs
 
+	// Vas a tener que meter algo asi, con lista o vectores
+	lista <TransactionInput *> ListaTranIn;      // <- Con lista
+	lista <TransactionOutput *> ListaTranOut;    // <- Con lista
 public:
 	//---Constructores---//
 	Transaction();
