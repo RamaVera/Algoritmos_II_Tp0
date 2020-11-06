@@ -14,9 +14,9 @@
 #include "sha256.h"
 
 
-BlockChainBuilder::BlockChainBuilder() : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( 3 /* El valor por default establecido en el TP0 */),pRawData(NULL){}
+BlockChainBuilder::BlockChainBuilder() : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( 3 /* El valor por default establecido en el TP0 */), pRawData(NULL){}
 
-BlockChainBuilder::BlockChainBuilder(size_t d) : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( d ),pRawData(NULL){}
+BlockChainBuilder::BlockChainBuilder(size_t d) : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( d ), pRawData(NULL){}
 
 BlockChainBuilder::~BlockChainBuilder() {
 	// TODO Auto-generated destructor stub

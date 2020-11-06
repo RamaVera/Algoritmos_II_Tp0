@@ -10,6 +10,7 @@
 
 #include "TransactionInput.h"
 #include "TransactionOutput.h"
+#include "BlockChainDataTypes.h"
 
 class Transaction {
 private:
@@ -22,6 +23,7 @@ public:
 	//---Constructores---//
 	Transaction();
 	Transaction(int n_tx_in,int n_tx_out);
+	Transaction( const & raw_t );
 	~Transaction();
 	//---Getters---//
 	int getNumTransactionIn();

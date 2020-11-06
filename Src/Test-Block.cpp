@@ -72,10 +72,10 @@ int main() {
 					if ( test == 1 ) {
 						cout << "Dificultad Ok < " << test << std::endl;
 						break;
-						}
+					}
 					else if ( test < 0 ) {
 						cout << "Error: " << test << std::endl;
-						}
+					}
 					else {
 						cout << "Dificultad < " << test << std::endl;
 					};

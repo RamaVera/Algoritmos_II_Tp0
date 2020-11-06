@@ -24,6 +24,10 @@ Transaction::Transaction(){
 	this->pOutputs = NULL;
 }
 
+Transaction::Transaction( const & raw_t ){
+	// TODO
+}
+
 //Descripcion: Instancia el objeto Transaction de tamaño especifico
 //Precondicion: Si por error se envia tamaño menor a 1 devuelve un Transaction vacio
 //Postcondicion: Dos punteros a memoria de tamaño definido creados

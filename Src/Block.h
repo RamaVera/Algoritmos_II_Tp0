@@ -7,6 +7,7 @@
 #include "TiposHash.h"
 #include "Transaction.h"
 #include "lista.h"
+#include "BlockChainDataTypes.h"
 
 const size_t LargoHashEstandar = 64;
 const size_t LargoHashFirma    = 40;	// Hash Pública de la Cuenta
@@ -25,8 +26,8 @@ class Block {
 		StatusBlock eBlock;
 		// Atributos Seccion Body;
 		size_t txn_count;
-		lista <Transaction> ListaTran;
-		Transaction *CurTran;
+		lista <Transaction *> ListaTran;
+		Transaction * CurTran;
 		// Métodos privados
 		std::string RecalculoHash();
 
@@ -34,6 +35,9 @@ class Block {
     // Métodos
         // Constructores
         Block();
+		Block( const & raw_t );
+		//Block( const & std::string previo_block, size_t bits, const & raw_t );
+		// size_t bits sale de BlockChainManager::getUserDefinedDifficulty(void), pero referenciar a esta clase implica un encastramiento indeseado.
         // Destructor
         ~Block();
 		// Getters
@@ -44,9 +48,9 @@ class Block {
 		std::string getnonce();
 		// Setters
 		bool setpre_block( std::string valor );
-		bool settxns_hash( std::string valor );
+		bool settxns_hash( std::string valor );		// Debo dejar el método de asignación. El cálculo Hash es externo al objeto block, no está encapsulado.
 		bool setbits( unsigned int valor );
-		bool setnonce( std::string valor );
+		bool setnonce( std::string valor );			// Debo dejar el método de asignación. El cálculo del Nonce es externo al objeto block, no está encapsulado.
 		StatusBlock EstatusBlock();
 
 };

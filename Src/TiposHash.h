@@ -9,6 +9,7 @@ enum class TiposHash {
 enum class StatusBlock {
 	BlockSinDatos,
 	BlockCambiosPendientes,
+	BlockPendienteString,
 	BlockCalculandoHash,
 	BlockEstadoError,
 	BlockEstadoOk,
