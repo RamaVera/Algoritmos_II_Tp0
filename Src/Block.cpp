@@ -19,7 +19,7 @@ Block::Block()
 	// this->eBlock = BlockSinDatos;
 }
 
-Block::Block( const & raw_t ) 
+Block::Block( const raw_t & raw )
 	: pre_block(""), txns_hash(""), bits( 3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos)
 {
 	/* Básicamente:
@@ -33,7 +33,7 @@ Block::Block( const & raw_t )
 			      En una lista lista.h o en un arreglo dinámico vector.h raw_t?
 			En este caso se recibe solo un raw_t, igualmente lo cargo en una lista, para hacerlo más genérico.
 	*/
-	this->CurTran = new Transaction( raw_t );  	// <- Ojo, nuevo constructor
+	this->CurTran = new Transaction( raw );  	// <- Ojo, nuevo constructor
 	this->ListaTran.insertar( this->CurTran );	// Para el Constructor con un contenedor de raw_t habrá que iterar pasando el mismo tipo de parámetros al constructor de Transaction
 	this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
 	this->eBlock = StatusBlock::BlockPendienteString;

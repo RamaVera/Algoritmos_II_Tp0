@@ -35,7 +35,7 @@ class Block {
     // Métodos
         // Constructores
         Block();
-		Block( const & raw_t );
+		Block( const raw_t &);
 		//Block( const & std::string previo_block, size_t bits, const & raw_t );
 		// size_t bits sale de BlockChainManager::getUserDefinedDifficulty(void), pero referenciar a esta clase implica un encastramiento indeseado.
         // Destructor
