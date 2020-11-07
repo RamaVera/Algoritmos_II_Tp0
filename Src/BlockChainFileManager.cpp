@@ -66,7 +66,10 @@ bool BlockChainFileManager::isHashFromStream(std::istream *iss,char delim, std::
 	std::string line;
 	std::stringstream ss;
 	std::getline(*iss, line,delim);
-	if ( line.size() != 64 ) return false;
+	if( line.back() != '\r'){
+		if ( line.size() != 64 ) 	 return false;}
+	else{
+		if ( line.size() != 64 + 1 ) return false;}
 	//Debug
 	//std::cout << line << std::endl;
 	if(pString != NULL) *pString = line;

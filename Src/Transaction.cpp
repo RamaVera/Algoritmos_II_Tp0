@@ -52,13 +52,24 @@ Transaction::Transaction( const raw_t & Raw ){
 //Precondicion: Si se envia una transaccion nula no es necesario que se realice accion
 //Postcondicion: Objeto destruido, memoria liberada, punteros a null y parametros a cero.
 Transaction::~Transaction(){
-	if( (n_tx_in != 0 ) || (n_tx_out != 0) || ! this->ListaTranIn.vacia() || ! this->ListaTranOut.vacia() ) {
-		this->n_tx_in = 0;
-		delete &ListaTranIn; //Invocacion explicita del destructor de lista^M
-		this->n_tx_out = 0;
-		delete &ListaTranOut; //Invocacion explicita del destructor de lista^M
+	if ( ! this->ListaTranIn.vacia() ) {
+		lista <TransactionInput *>::iterador it(ListaTranIn);
+		it = this->ListaTranIn.primero();
+		do{
+			delete it.dato();
+			it.avanzar();
+		}while ( ! it.extremo() );
+	}
+	if ( ! this->ListaTranOut.vacia() ) {
+		lista <TransactionOutput *>::iterador it(ListaTranOut);
+		it = this->ListaTranOut.primero();
+		do {
+			delete it.dato();
+			it.avanzar();
+		}while ( ! it.extremo() );
 	}
 }
+
 //---Getters---//
 
 //Descripcion: Devuelve cantidad de transacciones de input
