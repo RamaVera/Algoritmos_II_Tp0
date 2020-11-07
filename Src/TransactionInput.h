@@ -8,30 +8,27 @@
 #ifndef TRANSACTIONINPUT_H_
 #define TRANSACTIONINPUT_H_
 
-typedef struct outpoint{
-		char * tx_id;
-		int	idx;
-} outpoint_t;
-
+#include <string>
 
 class TransactionInput {
 private:
-		outpoint_t outpoint;
-		char * addr;
+	struct outpoint{
+	   std::string tx_id;
+	   int	idx;
+	}outpoint;
+	std::string addr;
 public:
 	//---Constructores---//
 	TransactionInput();
 	~TransactionInput();
 	//---Getters---//
-	const outpoint_t getOutpoint(void) const;
-	const char* getTxId(void) const;
+	const std::string getTxId(void) const;
 	int getIdx(void) const;
-	const char* getAddr(void) const;
+	const std::string getAddr(void) const;
 	//---Setters---//
-	void setOutpoint(const outpoint_t & Outpoint);
-	void setTxId(char* tx_id);
+	void setTxId(std::string tx_id);
 	void setIdx(int idx);
-	void setAddr(char* addr);
+	void setAddr(std::string addr);
 	//---Otros---//
 };
 

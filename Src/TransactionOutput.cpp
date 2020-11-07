@@ -6,31 +6,25 @@
  */
 
 #include "TransactionOutput.h"
+
 #include <cstddef>
 
-#ifndef HASH256_LENGTH
-	#define HASH256_LENGTH 32
-#endif
 	//---Constructores---//
 
 //Descripcion: Construye el objeto TransactionOutput vacio
 //Precondicion:
-//Postcondicion: Atributos inicializados en cero y en NULL
+//Postcondicion: Atributos inicializados en cero o vacio
 TransactionOutput::TransactionOutput(){
 	this->value = 0;
-	this->addr = NULL;
+	this->addr = "";
 }
 
 //Descripcion: Destruye el objeto TransactionOutput
 //Precondicion:
-//Postcondicion: Si el objeto habia pedido memoria dinamica
-// se libera y postinicializa en null y atributos en cero
+//Postcondicion: Atributos en cero y strings vacios
 TransactionOutput::~TransactionOutput(){
 	this->value = 0;
-	if(this->addr != NULL){
-		delete [] this->addr;
-		this->addr = NULL;
-	}
+	this->addr = "";
 }
 	//---Getters---//
 
@@ -44,13 +38,13 @@ float TransactionOutput::getValue(void) const{
 //Descripcion: Devuelve el arreglo de char del parametro addr
 //Precondicion:
 //Postcondicion: Debe ser un rvalue lo que devuelve
-const char* TransactionOutput::getAddr(void) const{
+const std::string TransactionOutput::getAddr(void) const{
 	return this->addr;
 }
 	//---Setters---//
 
 //Descripcion: Carga el atributo value
-//Precondicion:
+//Precondicion: Se asume validado previamente
 //Postcondicion:
 void TransactionOutput::setValue(float value){
 	this->value = value;
@@ -58,11 +52,9 @@ void TransactionOutput::setValue(float value){
 }
 
 //Descripcion: Carga el atributo addr
-//Precondicion: Se asume que addr siempre sera de tamaño 32
-//Postcondicion: Se genera un arreglo dinamico de tamaño de hash de 32
-void TransactionOutput::setAddr(char* addr){
-	this->addr = new char[HASH256_LENGTH];
-	for(int i = 0 ; i < HASH256_LENGTH ; i++)
-			this->addr[i] = addr[i];
+//Precondicion: Se asume validado previamente
+//Postcondicion:
+void TransactionOutput::setAddr(std::string addr){
+	this->addr = addr;
 }
 

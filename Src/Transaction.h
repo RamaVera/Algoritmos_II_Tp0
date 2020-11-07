@@ -15,19 +15,15 @@
 
 class Transaction {
 private:
-	int n_tx_in; 					//Indica cantidad total de inputs
-	TransactionInput * pInputs; 		// Lista de inputs
-	int n_tx_out; 					//Indica cantidad total de outputs
-	TransactionOutput * pOutputs;		// Lista de outputs
-
-	// Vas a tener que meter algo asi, con lista o vectores
-	lista <TransactionInput *> ListaTranIn;      // <- Con lista
-	lista <TransactionOutput *> ListaTranOut;    // <- Con lista
+	int n_tx_in; 								 // Indica cantidad total de inputs
+	lista <TransactionInput *> ListaTranIn;      // Lista de inputs
+	int n_tx_out; 								 // Indica cantidad total de outputs
+	lista <TransactionOutput *> ListaTranOut;    // Lista de outputs
 public:
 	//---Constructores---//
 	Transaction();
 	Transaction(int n_tx_in,int n_tx_out);
-	Transaction( const & raw_t );
+	Transaction( const raw_t & raw);
 	~Transaction();
 	//---Getters---//
 	int getNumTransactionIn();
@@ -36,6 +32,7 @@ public:
 	TransactionOutput * getTransactionOutput(int index);
 	//---Setters---//
 	//---Otros---//
+	std::string getConcatenatedTransactions();
 };
 
 #endif /* TRANSACTION_H_ */
