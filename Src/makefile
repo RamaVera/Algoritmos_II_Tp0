@@ -31,7 +31,7 @@ BlockChainBuilder.o: BlockChainBuilder.cpp BlockChainBuilder.h TiposHash.h sha25
 BlockChainFileManager.o: BlockChainFileManager.cpp BlockChainFileManager.h BlockChainDataTypes.h
 	$(CXX) $(CXXFLAGS) -c BlockChainFileManager.cpp
 
-tp0: main.cpp BlockChainManager.h BlockChainBuilder.h BlockChainFileManager.h BlockChainStatus.h TiposHash.h Transaction.h TransactionInput.h TransactionOutput.h lista.h sha256.h vector.h sha256.o Block.o Transaction.o TransactionInput.o TransactionOutput.o cmdline.o BlockChainManager.o BlockChainBuilder.o BlockChainFileManager.o
+tp0: main.cpp BlockChainManager.h BlockChainBuilder.h BlockChainFileManager.h BlockChainStatus.h TiposHash.h Transaction.h TransactionInput.h TransactionOutput.h lista.h sha256.h sha256.o Block.o Transaction.o TransactionInput.o TransactionOutput.o cmdline.o BlockChainManager.o BlockChainBuilder.o BlockChainFileManager.o
 	$(CXX) $(CXXFLAGS) -o tp0 main.cpp sha256.o Block.o cmdline.o BlockChainManager.o BlockChainBuilder.o BlockChainFileManager.o Transaction.o TransactionInput.o TransactionOutput.o
 
 clean:
