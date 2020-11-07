@@ -38,25 +38,22 @@ int main() {
 	}
 
 	// Parte nueva
-	lista <Block *> ListaBlocks;
-	Block * BlocklActual;
-	BlocklActual = new Block();
-	if ( !BlocklActual->setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
-	if ( !BlocklActual->settxns_hash( "e9dc0f0fbcb9021dc39ec104dfa51e813a86c8205a77d3be6c8cd6140b941e0c" ) ) return -1;
-	if ( !BlocklActual->setbits( 3 ) ) return -1;
-	ListaBlocks.insertar( BlocklActual );
-	BlocklActual = new Block();
-	if ( !BlocklActual->setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
-	if ( !BlocklActual->settxns_hash( "cd372fb85148700fa88095e3492d3f9f5beb43e555e5ff26d95f5a6adc36f8e6" ) ) return -1;
-	if ( !BlocklActual->setbits( 3 ) ) return -1;
-	ListaBlocks.insertar( BlocklActual );
-	BlocklActual = new Block();
-	if ( !BlocklActual->setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
-	if ( !BlocklActual->settxns_hash( "155dc94b29dce95bb2f940cdd2d7e0bce66dca9370c3ed96d50a30b3d84f8c4c" ) ) return -1;
-	if ( !BlocklActual->setbits( 3 ) ) return -1;
-	ListaBlocks.insertar( BlocklActual );
+	lista <Block> ListaBlocks;
+	Block Blockl1, Blockl2, Blockl3, BlocklActual;
+	if ( !Blockl1.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl1.settxns_hash( "e9dc0f0fbcb9021dc39ec104dfa51e813a86c8205a77d3be6c8cd6140b941e0c" ) ) return -1;
+	if ( !Blockl1.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl1 );
+	if ( !Blockl2.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl2.settxns_hash( "cd372fb85148700fa88095e3492d3f9f5beb43e555e5ff26d95f5a6adc36f8e6" ) ) return -1;
+	if ( !Blockl2.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl2 );
+	if ( !Blockl3.setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" ) ) return -1;
+	if ( !Blockl3.settxns_hash( "155dc94b29dce95bb2f940cdd2d7e0bce66dca9370c3ed96d50a30b3d84f8c4c" ) ) return -1;
+	if ( !Blockl3.setbits( 3 ) ) return -1;
+	ListaBlocks.insertar( Blockl3 );
 	if ( ! ListaBlocks.vacia() ) {
-		lista <Block *>::iterador it;
+		lista <Block>::iterador it;
 		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
 		   que necesito para calcular el Hash.
 		*/
@@ -66,12 +63,12 @@ int main() {
 			size_t contador = 0;
 			do {
 				std::string resultado = "", nonce, hash_resultado = "";
-				resultado = BlocklActual->gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
+				resultado = BlocklActual.gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
 				nonce = BlockChainBuilder::Calculononce();	// Cada llamada genera un nonce <>
 				if ( resultado.length() > 0 || nonce.length() ) {
 					int test;
 					hash_resultado = sha256( resultado + nonce );
-					test = BlockChainBuilder::CheckDificultadOk( hash_resultado, BlocklActual->getbits() );
+					test = BlockChainBuilder::CheckDificultadOk( hash_resultado, BlocklActual.getbits() );
 					if ( test == 1 ) {
 						cout << "Dificultad Ok < " << test << std::endl;
 						break;
@@ -86,14 +83,6 @@ int main() {
 				contador++;
 			} while ( contador < 100 /* Corte de iteraciones */ );
 			it.avanzar();
-		} while ( ! it.eol() );
-	}
-	// Liberar la memoria
-	if ( ! ListaBlocks.vacia() ) {
-		lista <Block *>::iterador it;
-		it = ListaBlocks.primero();
-		delete it.dato();
-		do  {
 		} while ( ! it.eol() );
 	}
 }
