@@ -16,7 +16,7 @@ Block::Block()
 	//this->ListaTran = NULL;
 	// this->CurTran = NULL;
 	// this->txn_count = 0;
-	// this->eBlock = BlockSinDatos;
+	this->eBlock = StatusBlock::BlockSinDatos;
 }
 
 Block::Block( const raw_t & raw )
@@ -38,19 +38,6 @@ Block::Block( const raw_t & raw )
 	this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
 	this->eBlock = StatusBlock::BlockPendienteString;
 }
-
-/*
-//Interfaz entre FileManager Hacia Builder
-typedef struct{
-	int inTx;
-	std::string * IN_tableOfTxId;
-	int * IN_tableOfIndex ;
-	std::string * IN_tableOfAddr;
-	int outTx;
-	float * OUT_tableOfValues;
-	std::string * OUT_tableOfAddr;
-} raw_t;
-*/
 
 // Destructor
 Block::~Block() {
@@ -100,11 +87,11 @@ bool Block::setpre_block( std::string valor ) {
 	else {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
 		   2) Chequear que cada byte sea un caracter hexa válido.
+		   2) Chequear que cada byte sea un caracter hexa válido. Se elimina se supone que vien externamente validado.
+		   		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) {
+					this->pre_block = valor;
 		*/
-		//if ( this->CheckHash( valor, clavehash256 ) ) {
-		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) {
-			this->pre_block = valor;
-		}
+		this->pre_block = valor;
 	}
 	return true;
 }
@@ -116,12 +103,12 @@ bool Block::settxns_hash( std::string valor ) {
 	}
 	else {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
-		   2) Chequear que cada byte sea un caracter hexa válido.
-		*/
-		// if ( this->CheckHash( valor, clavehash256 ) ) /* Es otro hash de 32 bytes */ {
-		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) /* Es otro hash de 32 bytes */ {
+		   2) Chequear que cada byte sea un caracter hexa válido. Se elimina se supone que vien externamente validado.
+		   		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) {
 			this->txns_hash = valor;
 		}
+		*/
+		this->txns_hash = valor;
 	}
 	return true;
 }
@@ -152,15 +139,13 @@ bool Block::setnonce( std::string valor ) {
 std::string Block::RecalculoHash() {
 	std::string cadena = "";
 	if ( ! this->ListaTran.vacia() ) {
-		// lista <Transaction>::iterador it();
 		lista <Transaction *>::iterador it(ListaTran);
 		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaTran.primero();
 		while ( ! it.eol() ) {
-			// ToDo
-			// std::string cadena += ListaTran.texto <- falta definir el método que extrae el string en la Clase Transaction.
+			cadena += it.dato()->getConcatenatedTransactions();
 			it.avanzar();
 		}
 	}

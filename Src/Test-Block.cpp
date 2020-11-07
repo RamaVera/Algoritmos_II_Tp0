@@ -92,8 +92,9 @@ int main() {
 	if ( ! ListaBlocks.vacia() ) {
 		lista <Block *>::iterador it;
 		it = ListaBlocks.primero();
-		delete it.dato();
 		do  {
+			delete it.dato();
+			it.avanzar();
 		} while ( ! it.eol() );
 	}
 }

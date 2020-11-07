@@ -10,7 +10,7 @@ enum class StatusBlock {
 	BlockSinDatos,
 	BlockCambiosPendientes,
 	BlockPendienteString,
-	BlockCalculandoHash,
+	BlockCalculadoHash,
 	BlockEstadoError,
 	BlockEstadoOk,
 };

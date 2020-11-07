@@ -17,8 +17,8 @@ private:	// Redundante pero más legible
 	//  Anterior
 	static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager 
 	// Datos privados
-	Block BlocklActual;
-	lista <Block> ListaBlocks;
+	Block * BlocklActual;
+	lista <Block *> ListaBlocks;
 	std::string hash_resultado;
 	size_t bits;	/* La dificultad de bits */
 	//  Nuevo

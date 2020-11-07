@@ -66,17 +66,17 @@ bool BlockChainBuilder::Minando() {
 	std::string resultado = "";
 	
 	if ( ! this->ListaBlocks.vacia() ) {
-		lista <Block>::iterador it;
+		lista <Block *>::iterador it;
 		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaBlocks.primero();
 		do  {
 			this->BlocklActual = it.dato();
-			resultado += this->BlocklActual.gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
-			resultado += this->BlocklActual.getnonce();
+			resultado += this->BlocklActual->gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
+			resultado += this->BlocklActual->getnonce();
 			if ( resultado.length() > 0  ) {
-				this->hash_resultado = sha256( resultado );
+				this->hash_resultado = sha256 ( sha256( resultado ) );
 				if ( CalculoBits( this->hash_resultado, this->bits ) ) {
 					break;
 				}
