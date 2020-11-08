@@ -177,5 +177,21 @@ float BlockChainFileManager::getBTCValueFromStream(std::istream *iss,char delim)
 
 status_t BlockChainFileManager::convert(std::ostream * iss, blockchain_t * pBlockChain){
 	//@TODO
+	/* Estructura
+	   Instancia de Block
+		std::string getpre_block(),
+		std::string gettxns_hash();
+		unsigned int getbits();
+		std::string getnonce()
+		Bucles de Block.Transactions
+		1 a n
+			Block.Transactions.TransactionInput
+				int getIdx(void) const 	const std::string getTxId(void) const const std::string getAddr(void) const
+		
+		1 a m
+			Block.Transactions.TransactionOuput
+				float getValue(void) const m const std::string getAddr(void) const;
+				se pierde el Id original del Input.txt y se pone m ?
+	*/
 	return STATUS_OK;
 }
