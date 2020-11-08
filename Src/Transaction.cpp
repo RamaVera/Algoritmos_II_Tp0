@@ -8,10 +8,7 @@
 
 
 #include "Transaction.h"
-#include "TransactionInput.h"
-#include "TransactionOutput.h"
-#include <sstream>
-#include <cstddef> // Para NULL
+
 
 	//---Constructores---//
 

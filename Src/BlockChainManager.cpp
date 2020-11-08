@@ -5,13 +5,8 @@
  *      Author: Ramiro
  */
  
-#include<string>
-
 #include "BlockChainManager.h"
-#include "BlockChainFileManager.h"
-#include "BlockChainBuilder.h"
-#include "Block.h"
-#include "lista.h"
+
 
 void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
 	BlockChainBuilder builder(BlockChainManager::getUserDefinedDifficulty());
@@ -24,7 +19,7 @@ void BlockChainManager::proccesBlockChain(std::istream *iss,std::ostream *oss){
 	BlockChainManager::proccesStatus( fileManager.parse(iss,builder.getRawPointer()) );
 
 	std::cout<< "Begin Creating Block ..." ;
-	//BlockChainManager::proccesStatus( builder.createBlockChain() );
+	BlockChainManager::proccesStatus( builder.createBlockChain() );
 
 	std::cout<< "Begin Converting Block to File ..." ;
 	//BlockChainManager::proccesStatus( fileManager.convert(oss,builder->getBlockChainPointer()) );

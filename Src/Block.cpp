@@ -1,12 +1,7 @@
 //Archivo fuente clase Block / AlgoBlock del tp0 para la materia 9512 Algoritmos y Programación 2.
 
-#include<string>
-#include <cstdlib>
-
 #include "Block.h"
-#include "TiposHash.h"
-#include "Transaction.h"
-#include "BlockChainBuilder.h"
+
 
 // Constructores
 Block::Block() 
@@ -49,7 +44,7 @@ Block::~Block() {
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaTran.primero();
-		while ( ! it.eol() ) {
+		while ( ! it.extremo() ) {
 			delete it.dato();
 			it.avanzar();
 		}

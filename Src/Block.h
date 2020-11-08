@@ -3,10 +3,11 @@
 #ifndef BLOCK_H_
 #define BLOCK_H_
 
-#include<string>
+#include <cstdlib>
+#include <string>
+#include "lista.h"
 #include "TiposHash.h"
 #include "Transaction.h"
-#include "lista.h"
 #include "BlockChainDataTypes.h"
 
 const size_t LargoHashEstandar = 64;
@@ -29,7 +30,7 @@ class Block {
 		lista <Transaction *> ListaTran;
 		Transaction * CurTran;
 		// Métodos privados
-		std::string RecalculoHash();
+
 
 	public:
     // Métodos
@@ -52,7 +53,7 @@ class Block {
 		bool setbits( unsigned int valor );
 		bool setnonce( std::string valor );			// Debo dejar el método de asignación. El cálculo del Nonce es externo al objeto block, no está encapsulado.
 		StatusBlock EstatusBlock();
-
+		std::string RecalculoHash();
 };
 
 #endif /* BLOCK_H_ */

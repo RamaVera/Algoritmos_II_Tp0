@@ -8,7 +8,6 @@
 #ifndef BLOCKCHAINDATATYPES_H_
 #define BLOCKCHAINDATATYPES_H_
 #include <string>
-
 //Interfaz entre FileManager Hacia Builder
 typedef struct{
 	int inTx;
@@ -20,7 +19,6 @@ typedef struct{
 	std::string * OUT_tableOfAddr;
 } raw_t;
 
-//TODO DEFINIR INTERFAZ ENTRE BUILDER HACIA FILEMANAGER
 typedef int blockchain_t;
 
 #endif /* BLOCKCHAINDATATYPES_H_ */
