@@ -2,6 +2,7 @@
 
 #include<string>
 #include <cstdlib>
+#include <iostream>
 
 #include "Block.h"
 #include "TiposHash.h"
@@ -33,26 +34,32 @@ Block::Block( const raw_t & raw )
 			      En una lista lista.h o en un arreglo dinámico vector.h raw_t?
 			En este caso se recibe solo un raw_t, igualmente lo cargo en una lista, para hacerlo más genérico.
 	*/
-	this->CurTran = new Transaction( raw );  	// <- Ojo, nuevo constructor
-	this->ListaTran.insertar( this->CurTran );	// Para el Constructor con un contenedor de raw_t habrá que iterar pasando el mismo tipo de parámetros al constructor de Transaction
-	this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
-	this->eBlock = StatusBlock::BlockPendienteString;
+	try {
+		this->CurTran = new Transaction( raw );  	// <- Ojo, nuevo constructor
+		this->ListaTran.insertar( this->CurTran );	// Para el Constructor con un contenedor de raw_t habrá que iterar pasando el mismo tipo de parámetros al constructor de Transaction
+		this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
+		this->eBlock = StatusBlock::BlockPendienteString;
+	}
+	catch (std::bad_alloc& ba)
+	{
+		this->eBlock = StatusBlock::BlockBadAlloc;
+		std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+	}
 }
 
 // Destructor
 Block::~Block() {
 	// ListaTran se autodestruye, antes debo liberar la memoria asignada en cada elemento * ListaTran de la lista
 	if ( ! this->ListaTran.vacia() ) {
-		// lista <Transaction>::iterador it();
 		lista <Transaction *>::iterador it(ListaTran);
 		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaTran.primero();
-		while ( ! it.eol() ) {
+		do {
 			delete it.dato();
 			it.avanzar();
-		}
+		} while ( ! it.extremo() );
 	}
 }
 

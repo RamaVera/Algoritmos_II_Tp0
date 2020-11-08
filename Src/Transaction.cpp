@@ -51,14 +51,30 @@ Transaction::Transaction( const raw_t & Raw ){
 //Descripcion: Destruye elemento de Transaction
 //Precondicion: Si se envia una transaccion nula no es necesario que se realice accion
 //Postcondicion: Objeto destruido, memoria liberada, punteros a null y parametros a cero.
+/*
+	Analicé el destructor y me parece que fuga memoria.
+	Al invocar el destructor de los contenedores Lista, se eliminan los nodos pedidos dinámicamente.
+	pero no el puntero de cada Clase contenido en dato de cada nodo.
+	Se libera el nodo, pero se pierde la referencia del puntero del dato.
+	Es como borrar el vector dinámico, pero no liberar la memoria dinámica pedida en cada "globito", Cardozo dixit.
+Transaction::~Transaction(){
+	if( (n_tx_in != 0 ) || (n_tx_out != 0) || ! this->ListaTranIn.vacia() || ! this->ListaTranOut.vacia() ) {
+		this->n_tx_in = 0;
+		delete &ListaTranIn; //Invocacion explicita del destructor de lista^M
+		this->n_tx_out = 0;
+		delete &ListaTranOut; //Invocacion explicita del destructor de lista^M
+	}
+}
+*/
+
 Transaction::~Transaction(){
 	if ( ! this->ListaTranIn.vacia() ) {
 		lista <TransactionInput *>::iterador it(ListaTranIn);
 		it = this->ListaTranIn.primero();
-		do{
+		do {
 			delete it.dato();
 			it.avanzar();
-		}while ( ! it.extremo() );
+		} while ( ! it.extremo() );
 	}
 	if ( ! this->ListaTranOut.vacia() ) {
 		lista <TransactionOutput *>::iterador it(ListaTranOut);
@@ -66,8 +82,18 @@ Transaction::~Transaction(){
 		do {
 			delete it.dato();
 			it.avanzar();
-		}while ( ! it.extremo() );
+		} while ( ! it.extremo() );
 	}
+	/*
+	// Esta parte no seria necesaria porque ListaTranIn y ListaTranOut no fueron creados dinámicamente
+	// Al salir del alcance de la clase contenedora ejecutan c/u sus destructores respectivos.
+	if( (n_tx_in != 0 ) || (n_tx_out != 0) || ! this->ListaTranIn.vacia() || ! this->ListaTranOut.vacia() ) {
+		this->n_tx_in = 0;
+		delete &ListaTranIn; //Invocación explicita del destructor de lista TransactionInput
+		this->n_tx_out = 0;
+		delete &ListaTranOut; //Invocación explicita del destructor de lista TransactionOutput
+	}
+   */
 }
 
 //---Getters---//
@@ -143,4 +169,3 @@ std::string Transaction::getConcatenatedTransactions( void ){
        }
        return concatenation.str();
 }
-

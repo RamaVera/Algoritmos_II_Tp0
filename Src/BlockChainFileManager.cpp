@@ -7,6 +7,7 @@
 
 #include "BlockChainFileManager.h"
 #include "Block.h"
+#include "tiposhash.h"
 
 BlockChainFileManager::BlockChainFileManager() {
 	pRawData = NULL;
@@ -65,7 +66,12 @@ bool BlockChainFileManager::isHashFromStream(std::istream *iss,char delim, std::
 	std::string line;
 	std::stringstream ss;
 	std::getline(*iss, line,delim);
-	if ( line.size() != LargoHashEstandar ) return false;
+	if( line.back() != '\r'){
+		// if ( line.size() != LargoHashEstandar ) 	return false;}
+		if ( line.size() != (size_t) LargoHash::LargoHashEstandar ) 	return false;}
+	else{
+		//if ( line.size() != LargoHashEstandar + 1 ) return false;}
+		if ( line.size() != (size_t) LargoHash::LargoHashEstandar + 1 ) return false;}
 	//Debug
 	//std::cout << line << std::endl;
 	if(pString != NULL) *pString = line;
@@ -168,8 +174,6 @@ float BlockChainFileManager::getBTCValueFromStream(std::istream *iss,char delim)
 	ss >> floatValue;
 	return floatValue;
 }
-
-
 
 status_t BlockChainFileManager::convert(std::ostream * iss, blockchain_t * pBlockChain){
 	//@TODO
