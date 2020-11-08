@@ -39,7 +39,9 @@ public:
 	virtual ~BlockChainBuilder();
 		// Getters
 	unsigned int getbits();
+	std::string getObtainedHash(){return hash_resultado;};
 	raw_t *& getRawPointer(){return pRawData;}
+	lista <Block *> getBlockChainPointer(){return ListaBlocks;};
 	// Setters
 	bool setbits( unsigned int valor );
 	// Métodos
@@ -48,6 +50,7 @@ public:
 	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
 	static std::string Calculononce();
 	status_t createBlockChain(void);
+
 };
 
 #endif /* BLOCKCHAINBUILDER_H_ */

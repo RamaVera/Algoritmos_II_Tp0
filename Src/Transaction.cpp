@@ -128,13 +128,13 @@ std::string Transaction::getConcatenatedTransactions( void ){
        lista <TransactionOutput *>::iterador itOut(this->ListaTranOut);
        std::ostringstream concatenation;
        concatenation << this->n_tx_in << '\n';
-       for(itIn = ListaTranIn.primero(); !itIn.eol() ; itIn.avanzar()){
+       for(itIn = ListaTranIn.primero(); !itIn.extremo() ; itIn.avanzar()){
                concatenation<< itIn.dato()->getTxId() <<' ';
                concatenation<< itIn.dato()->getIdx()  <<' ';
                concatenation<< itIn.dato()->getAddr() <<'\n';
       }
        concatenation << this->n_tx_out << '\n';
-      for(itOut = ListaTranOut.primero(); !itOut.eol() ; itOut.avanzar()){
+      for(itOut = ListaTranOut.primero(); !itOut.extremo() ; itOut.avanzar()){
               concatenation<< itOut.dato()->getValue() <<' ';
                concatenation<< itOut.dato()->getAddr()  <<'\n';
        }

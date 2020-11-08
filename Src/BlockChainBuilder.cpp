@@ -102,7 +102,7 @@ bool BlockChainBuilder::Minando() {
 				//if ( resultado.length() > 0  ) {
 					this->hash_resultado = sha256 ( sha256( resultado ) );
 				//}
-			}while(CalculoBits( this->hash_resultado, this->bits ) );
+			}while(! CalculoBits( this->hash_resultado, this->bits ) );
 			it.avanzar();
 		} while ( ! it.extremo() );
 		return true;

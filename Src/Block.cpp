@@ -139,7 +139,7 @@ std::string Block::RecalculoHash() {
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaTran.primero();
-		while ( ! it.eol() ) {
+		while ( ! it.extremo() ) {
 			cadena += it.dato()->getConcatenatedTransactions();
 			it.avanzar();
 		}

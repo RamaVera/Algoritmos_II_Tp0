@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <ostream>
 #include "BlockChainStatus.h"
 #include "BlockChainBuilder.h"
 #include "BlockChainDataTypes.h"
@@ -30,7 +31,7 @@ public:
 	~BlockChainFileManager();
 	status_t validate(std::istream * iss);
 	status_t parse(std::istream * iss,raw_t * &pRawData);
-	status_t convert(std::ostream * oss,blockchain_t * pBlockChain);
+	status_t convert(std::ostream * oss,const lista <Block *> & BlockChain);
 };
 
 #endif /* BLOCKCHAINFILEMANAGER_H_ */
