@@ -6,8 +6,7 @@
  */
 
 #include "BlockChainFileManager.h"
-
-
+#include "Block.h"
 
 BlockChainFileManager::BlockChainFileManager() {
 	pRawData = NULL;
@@ -66,10 +65,7 @@ bool BlockChainFileManager::isHashFromStream(std::istream *iss,char delim, std::
 	std::string line;
 	std::stringstream ss;
 	std::getline(*iss, line,delim);
-	if( line.back() != '\r'){
-		if ( line.size() != 64 ) 	 return false;}
-	else{
-		if ( line.size() != 64 + 1 ) return false;}
+	if ( line.size() != LargoHashEstandar ) return false;
 	//Debug
 	//std::cout << line << std::endl;
 	if(pString != NULL) *pString = line;
@@ -179,5 +175,3 @@ status_t BlockChainFileManager::convert(std::ostream * iss, blockchain_t * pBloc
 	//@TODO
 	return STATUS_OK;
 }
-
-

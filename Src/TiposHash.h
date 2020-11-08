@@ -8,11 +8,18 @@ enum class TiposHash {
 
 enum class StatusBlock {
 	BlockSinDatos,
+	BlockBadAlloc,
 	BlockCambiosPendientes,
 	BlockPendienteString,
 	BlockCalculadoHash,
 	BlockEstadoError,
 	BlockEstadoOk,
 };
+
+/* Pasarlo a enum Class
+const size_t LargoHashEstandar = 64;
+const size_t LargoHashFirma    = 40;	// Hash Pública de la Cuenta// https://stackoverflow.com/questions/2268749/defining-global-constant-in-c
+*/
+// Análisis de Pro vs Contras contra #define y otras formas
 
 #endif
