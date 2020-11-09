@@ -10,16 +10,16 @@
 #include "BlockChainBuilder.h"
 
 // Constructores
-Block::Block() 
-	: pre_block(""), txns_hash(""), bits(3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos)
+Block::Block()
+	: pre_block(""), txns_hash(""), bits(3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos), txn_count(0), CurTran(NULL)
 	// ver el #define DIFFICULTY_DEFAULT_VALUE 3
 {
 	//this->ListaTran = NULL;
 	// this->CurTran = NULL;
 	// this->txn_count = 0;
-	this->eBlock = StatusBlock::BlockSinDatos;
+	// this->eBlock = StatusBlock::BlockSinDatos;
 }
-
+	
 Block::Block( const raw_t & raw )
 	: pre_block(""), txns_hash(""), bits( 3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos)
 {
