@@ -20,7 +20,7 @@ class Block {
 	private:
 		// Atributos Seccion Header
 		std::string pre_block;
-		std::string txns_hash;
+		std::string txns_hash;	// <- retiene el hash256(hash256(cadena_prehash))
 		size_t bits;	/* La dificultad de bits */
 		std::string nonce;
 		StatusBlock eBlock;
@@ -28,8 +28,9 @@ class Block {
 		size_t txn_count;
 		lista <Transaction *> ListaTran;
 		Transaction * CurTran;
+		std::string cadena_prehash;
 		// Métodos privados
-		std::string RecalculoHash();
+		std::string RecalculoHash( void );
 
 	public:
     // Métodos
@@ -46,6 +47,7 @@ class Block {
 		std::string gettxns_hash();
 		unsigned int getbits();
 		std::string getnonce();
+		std::string getcadenaprehash();
 		// Setters
 		bool setpre_block( std::string valor );
 		bool settxns_hash( std::string valor );		// Debo dejar el método de asignación. El cálculo Hash es externo al objeto block, no está encapsulado.

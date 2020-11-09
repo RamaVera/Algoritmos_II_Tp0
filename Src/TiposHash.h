@@ -10,8 +10,9 @@ enum class StatusBlock {
 	BlockSinDatos,
 	BlockBadAlloc,
 	BlockCambiosPendientes,
-	BlockPendienteString,
+	BlockPendienteCadena_prehash,
 	BlockCalculadoHash,
+	BlockCalculadoCadena_prehash,
 	BlockEstadoError,
 	BlockEstadoOk,
 };

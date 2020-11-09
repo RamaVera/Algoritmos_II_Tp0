@@ -6,7 +6,6 @@
  */
 
 #include "BlockChainFileManager.h"
-#include "Block.h"
 #include "tiposhash.h"
 
 BlockChainFileManager::BlockChainFileManager() {
@@ -175,23 +174,20 @@ float BlockChainFileManager::getBTCValueFromStream(std::istream *iss,char delim)
 	return floatValue;
 }
 
-status_t BlockChainFileManager::convert(std::ostream * iss, blockchain_t * pBlockChain){
-	//@TODO
-	/* Estructura
-	   Instancia de Block
-		std::string getpre_block(),
-		std::string gettxns_hash();
-		unsigned int getbits();
-		std::string getnonce()
-		Bucles de Block.Transactions
-		1 a n
-			Block.Transactions.TransactionInput
-				int getIdx(void) const 	const std::string getTxId(void) const const std::string getAddr(void) const
-		
-		1 a m
-			Block.Transactions.TransactionOuput
-				float getValue(void) const m const std::string getAddr(void) const;
-				se pierde el Id original del Input.txt y se pone m ?
-	*/
-	return STATUS_OK;
+status_t BlockChainFileManager::convert(std::ostream * iss, const lista <Block *> & BlockChain){
+	lista <Block *> ::iterador it(BlockChain);
+	std::string obtainedHash;
+
+	if(!iss->good())						return STATUS_BAD_READ_OUTPUT_FILE;
+	if( BlockChain.vacia() )				return STATUS_NO_BLOCKS_TO_CONVERT;
+	while(!it.extremo()){
+		*iss << it.dato()->getpre_block() << '\n';
+		*iss << it.dato()->gettxns_hash() << '\n';
+		*iss << it.dato()->getbits( )	  << '\n';
+		*iss << it.dato()->getnonce()	  << '\n';
+		// *iss << it.dato()->RecalculoHash();	
+		*iss << it.dato()->getcadenaprehash();	
+		it.avanzar();
+	}
+	return STATUS_FINISH_CONVERT_SUCCESSFULY;
 }

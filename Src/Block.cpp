@@ -38,7 +38,8 @@ Block::Block( const raw_t & raw )
 		this->CurTran = new Transaction( raw );  	// <- Ojo, nuevo constructor
 		this->ListaTran.insertar( this->CurTran );	// Para el Constructor con un contenedor de raw_t habrá que iterar pasando el mismo tipo de parámetros al constructor de Transaction
 		this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
-		this->eBlock = StatusBlock::BlockPendienteString;
+		this->eBlock = StatusBlock::BlockPendienteCadena_prehash;
+		RecalculoHash();
 	}
 	catch (std::bad_alloc& ba)
 	{
@@ -85,6 +86,10 @@ std::string Block::getnonce() {
 	return this->nonce;
 }
 
+std::string Block::getcadenaprehash() {
+	return this->cadena_prehash;
+}
+
 // Setters
 bool Block::setpre_block( std::string valor ) {
 	if ( valor.empty() ) {
@@ -110,7 +115,7 @@ bool Block::settxns_hash( std::string valor ) {
 	}
 	else {
 		/* 1) Debo validar que sea una cadena de 32 bytes o 64 dígitos Hexa
-		   2) Chequear que cada byte sea un caracter hexa válido. Se elimina se supone que vien externamente validado.
+		   2) Chequear que cada byte sea un caracter hexa válido. Se elimina se supone que viene externamente validado.
 		   		if ( BlockChainBuilder::CheckHash( valor, TiposHash::clavehash256 ) ) {
 			this->txns_hash = valor;
 		}
@@ -143,7 +148,7 @@ bool Block::setnonce( std::string valor ) {
 	return true;
 }
 
-std::string Block::RecalculoHash() {
+std::string Block::RecalculoHash( void ) {
 	std::string cadena = "";
 	if ( ! this->ListaTran.vacia() ) {
 		lista <Transaction *>::iterador it(ListaTran);
@@ -156,5 +161,10 @@ std::string Block::RecalculoHash() {
 			it.avanzar();
 		}
 	}
+	if ( ! cadena.empty() ) {
+		this->cadena_prehash = cadena;
+		this->eBlock = StatusBlock::BlockCalculadoCadena_prehash;
+	}
+	else this->eBlock = StatusBlock::BlockPendienteCadena_prehash;
 	return cadena;
 }

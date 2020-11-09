@@ -75,12 +75,17 @@ bool BlockChainBuilder::Minando() {
 		it = this->ListaBlocks.primero();
 		do  {
 			this->BlocklActual = it.dato();
-			resultado += this->BlocklActual->gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
+			resultado += this->BlocklActual->getcadenaprehash(); 	// <- getter que extrae el string en la Clase Transaction.
 			resultado += this->BlocklActual->getnonce();
 			if ( resultado.length() > 0  ) {
 				this->hash_resultado = sha256 ( sha256( resultado ) );
 				if ( CalculoBits( this->hash_resultado, this->bits ) ) {
-					break;
+					if ( this->BlocklActual->settxns_hash ( this->hash_resultado ) ) {   // <- setter que guarda el string del hash de hash en la Clase Transaction.
+						break;
+					}
+					else {
+						// TODO -> Error al almacenar?
+					}
 				}
 			}
 			it.avanzar();
