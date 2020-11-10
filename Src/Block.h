@@ -53,6 +53,7 @@ class Block {
 		bool settxns_hash( std::string valor );		// Debo dejar el método de asignación. El cálculo Hash es externo al objeto block, no está encapsulado.
 		bool setbits( unsigned int valor );
 		bool setnonce( std::string valor );			// Debo dejar el método de asignación. El cálculo del Nonce es externo al objeto block, no está encapsulado.
+		bool settransaction( const raw_t & raw ) ;  // TODO
 		StatusBlock EstatusBlock();
 
 };

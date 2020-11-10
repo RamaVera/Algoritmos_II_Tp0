@@ -148,6 +148,23 @@ bool Block::setnonce( std::string valor ) {
 	return true;
 }
 
+bool Block::settransaction( const raw_t & raw ) {
+	try {
+		this->CurTran = new Transaction( raw );  	// <- Ojo, nuevo constructor
+		this->ListaTran.insertar( this->CurTran );	// Para el Constructor con un contenedor de raw_t habrá que iterar pasando el mismo tipo de parámetros al constructor de Transaction
+		this->txn_count = 1;						// Para el Constructor que recibe un Contenedor, se incrementa en cada instancia nueva de Transaction
+		this->eBlock = StatusBlock::BlockPendienteCadena_prehash;
+		RecalculoHash();
+		return true;
+	}
+	catch (std::bad_alloc& ba)
+	{
+		this->eBlock = StatusBlock::BlockBadAlloc;
+		std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+		return false;
+	}
+}
+
 std::string Block::RecalculoHash( void ) {
 	std::string cadena = "";
 	if ( ! this->ListaTran.vacia() ) {
