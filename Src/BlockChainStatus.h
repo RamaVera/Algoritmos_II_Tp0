@@ -21,9 +21,6 @@ typedef enum{
 		STATUS_BAD_READ_OUTPUT_FILE,
 		STATUS_NO_BLOCKS_TO_CONVERT,
 		STATUS_FINISH_CONVERT_SUCCESSFULY,
-}status_t;
-
-
-
+} status_t;
 
 #endif /* BLOCKCHAINSTATUS_H_ */
