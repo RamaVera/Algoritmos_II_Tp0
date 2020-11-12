@@ -8,7 +8,7 @@
 #ifndef BLOCKCHAINSTATUS_H_
 #define BLOCKCHAINSTATUS_H_
 
-typedef enum{
+typedef enum {
 		STATUS_OK,
 		STATUS_CORRUPT_FORMAT,
 		STATUS_CORRUPT_FORMAT_BAD_HASH,

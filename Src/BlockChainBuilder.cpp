@@ -5,6 +5,8 @@
  *      Author: Ramiro
  */
 
+#include <time.h> 
+
 #include "BlockChainBuilder.h"
 #include "Block.h"
 
@@ -88,7 +90,10 @@ bool BlockChainBuilder::Minando() {
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaBlocks.primero();
+
 		do  {
+			time_t timer1, timer2;
+			time(&timer1);  	/* get current time; same as: timer = time(NULL)  */
 			this->BlocklActual = it.dato();
 			resultado = this->BlocklActual->getpre_block() + '\n';          // <- getter que extrae la clave doble hash del Block previo.
 			resultado += this->BlocklActual->getcadenaprehash() + '\n'; 	// <- getter que extrae el string en la Clase Transaction.
@@ -109,10 +114,16 @@ bool BlockChainBuilder::Minando() {
 					}
 				}
 			}
+			time(&timer2);
+			this->seconds = difftime( timer1, timer2 );
 			it.avanzar();
 		} while ( ! it.extremo() );
 	}
 	return false;
+}
+
+double BlockChainBuilder::tiempominado() {
+	return this->seconds;
 }
 
 const char* BlockChainBuilder::hex_char_to_bin( char c )

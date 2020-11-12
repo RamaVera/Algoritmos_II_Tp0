@@ -28,7 +28,8 @@ private:	// Redundante pero más legible
 	static std::string hex_str_to_bin_str( const std::string & hex );
 	static const char* hex_char_to_bin( char c );
 	static int dificultad( const std::string & value, const size_t dif );  					// -1 -> Error
-
+	// Para medir tiempos de minado x Block.
+	double seconds;
 public:
 	BlockChainBuilder();
 	BlockChainBuilder(size_t d);
@@ -36,6 +37,7 @@ public:
 		// Getters
 	unsigned int getbits();
 	raw_t *& getRawPointer(){return pRawData;}
+	double tiempominado();
 	// Setters
 	bool setbits( unsigned int valor );
 	// Métodos
