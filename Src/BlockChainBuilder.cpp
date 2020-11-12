@@ -61,7 +61,23 @@ std::string BlockChainBuilder::Calculononce() {
 }
 
 bool BlockChainBuilder::CalculoBits( std::string hash, size_t bits ) {
-	return true;
+	int resultado;
+	if ( hash.length() > 0  ) {
+		std::string hash_hex = "";
+		hash_hex = BlockChainBuilder::hex_str_to_bin_str( hash );  // No lleva this-> porque es static
+		resultado = BlockChainBuilder::CheckDificultadOk( hash_hex, bits );
+		if ( resultado == 1 ) {
+			return true;
+		}
+		else {
+			// Incluye cadena hash vacia y bits == 0
+			// Lo bueno de los booleanos es que siempre estas como máximo a un bit de acertar.
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
 }
 
 bool BlockChainBuilder::Minando() {
@@ -75,21 +91,27 @@ bool BlockChainBuilder::Minando() {
 		it = this->ListaBlocks.primero();
 		do  {
 			this->BlocklActual = it.dato();
-			resultado += this->BlocklActual->getcadenaprehash(); 	// <- getter que extrae el string en la Clase Transaction.
-			resultado += this->BlocklActual->getnonce();
-			if ( resultado.length() > 0  ) {
-				this->hash_resultado = sha256 ( sha256( resultado ) );
-				if ( CalculoBits( this->hash_resultado, this->bits ) ) {
-					if ( this->BlocklActual->settxns_hash ( this->hash_resultado ) ) {   // <- setter que guarda el string del hash de hash en la Clase Transaction.
-						break;
-					}
-					else {
-						// TODO -> Error al almacenar?
+			resultado = this->BlocklActual->getpre_block() + '\n';          // <- getter que extrae la clave doble hash del Block previo.
+			resultado += this->BlocklActual->getcadenaprehash() + '\n'; 	// <- getter que extrae el string en la Clase Transaction.
+			resultado += this->BlocklActual->getbits() + '\n';
+			if ( resultado.length() > 0 ) {
+				while ( true ) {
+					std::string nonce_temp = "";
+					nonce_temp = BlockChainBuilder::Calculononce();
+					this->hash_resultado = sha256 ( sha256( resultado + nonce_temp ) );
+					if ( CalculoBits( this->hash_resultado, this->bits ) ) {
+						this->BlocklActual->setnonce( BlockChainBuilder::Calculononce() );	 // Cada llamada genera un nonce <>, se guarda en Block
+						if ( this->BlocklActual->settxns_hash ( this->hash_resultado ) ) {   // <- setter que guarda el string del hash de hash en la Clase Transaction.
+							break;	// Corto el bucle y pasaria a un siguiente Block que ahora no hay.
+						}
+						else {
+							// TODO -> Error al almacenar?
+						}
 					}
 				}
 			}
 			it.avanzar();
-		} while ( ! it.eol() );
+		} while ( ! it.extremo() );
 	}
 	return false;
 }
