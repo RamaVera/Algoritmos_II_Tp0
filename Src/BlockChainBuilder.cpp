@@ -55,8 +55,7 @@ bool BlockChainBuilder::CheckHash( std::string valor, TiposHash Tipo ) {
 
 std::string BlockChainBuilder::Calculononce() {
 	static int contador = 0;
-	contador++;
-	return std::to_string( contador );
+	return std::to_string( ++contador );
 
 }
 
@@ -166,7 +165,7 @@ int BlockChainBuilder::dificultad( const std::string & value, const size_t dif )
 		if ( value[ i ] == '0' ) j++;
 		else if ( value[ i ] == '1' ) break;
 		else return -1;
-		if ( j++ >= dif ) break; 
+		if ( j >= dif ) break; 
 	}
 	return j;
 }
