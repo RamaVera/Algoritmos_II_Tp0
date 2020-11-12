@@ -35,7 +35,7 @@ private:	// Redundante pero más legible
 	
 public:
 	BlockChainBuilder();
-	BlockChainBuilder(size_t d);
+	BlockChainBuilder(unsigned int d);
 	virtual ~BlockChainBuilder();
 		// Getters
 	unsigned int getbits();
@@ -48,7 +48,7 @@ public:
 	unsigned int cantidadBlocks();
 	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
 	//static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
-	static std::string Calculononce();
+	static unsigned int Calculononce();
 	status_t createBlockChain(void);
 
 };

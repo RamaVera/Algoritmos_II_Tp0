@@ -95,7 +95,7 @@ void BlockChainManager::proccesStatus(status_t status){
 
 
 #define DIFFICULTY_DEFAULT_VALUE 3
-size_t BlockChainManager::userDefinedDifficulty = DIFFICULTY_DEFAULT_VALUE;
+unsigned int BlockChainManager::userDefinedDifficulty = DIFFICULTY_DEFAULT_VALUE;
 
 void BlockChainManager::setUserDefinedDifficulty(int d){
 	if( d < 0 ){
@@ -103,7 +103,7 @@ void BlockChainManager::setUserDefinedDifficulty(int d){
 		std::cerr << "Error de Formato: Dificultad debe ser mayor a cero" << std::endl;
 		std::abort();
 	}
-	userDefinedDifficulty = (size_t) d;
+	userDefinedDifficulty = (unsigned int) d;
 }
 
 

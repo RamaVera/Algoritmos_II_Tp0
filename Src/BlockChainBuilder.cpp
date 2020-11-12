@@ -10,7 +10,7 @@
 
 BlockChainBuilder::BlockChainBuilder() : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( 3 /* El valor por default establecido en el TP0 */), pRawData(NULL){}
 
-BlockChainBuilder::BlockChainBuilder(size_t d) : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( d ), pRawData(NULL){}
+BlockChainBuilder::BlockChainBuilder(unsigned int d) : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( d ), pRawData(NULL){}
 
 BlockChainBuilder::~BlockChainBuilder() {
 	if ( ! this->ListaBlocks.vacia() ){
@@ -59,29 +59,31 @@ BlockChainBuilder::~BlockChainBuilder() {
 //	}
 //}
 
-std::string BlockChainBuilder::Calculononce() {
-	static int contador = 0;
+unsigned int BlockChainBuilder::Calculononce() {
+	static unsigned int contador = 0;
 	contador++;
-	return std::to_string( contador );
+	return contador;
 
 }
 
 bool BlockChainBuilder::CalculoBits( std::string hash, size_t bits ) {
-
-	int test = BlockChainBuilder::CheckDificultadOk( hash, bits);
-	if ( test == 1 ) {
-		//std::cout << "Dificultad Ok < " << test << std::endl;
-		return true;
-	}
-	else if ( test < 0 ) {
-		//std::cout << "Error: " << test << std::endl;
-		return false;
+	int resultado;
+	if ( hash.length() > 0  ) {
+		std::string hash_hex = "";
+		hash_hex = BlockChainBuilder::hex_str_to_bin_str( hash );  // No lleva this-> porque es static
+		resultado = BlockChainBuilder::CheckDificultadOk( hash_hex, bits );
+		if ( resultado == 1 ) {
+			return true;
+		}
+		else {
+			// Incluye cadena hash vacia y bits == 0
+			// Lo bueno de los booleanos es que siempre estas como máximo a un bit de acertar.
+			return false;
+		}
 	}
 	else {
-		//std::cout << "Dificultad < " << test << std::endl;
 		return false;
-	};
-
+	}
 }
 
 bool BlockChainBuilder::Minando() {
@@ -102,9 +104,9 @@ bool BlockChainBuilder::Minando() {
 				resultado += '\n';
 				resultado += this->BlocklActual->gettxns_hash(); 
 				resultado += '\n';
-				resultado += this->BlocklActual->getbits();
+				resultado += std::to_string(this->BlocklActual->getbits());
 				resultado += '\n';
-				resultado += this->BlocklActual->getnonce();
+				resultado += std::to_string(this->BlocklActual->getnonce());
 				//std::cout << resultado << std::endl;//DEBUG
 				//if ( resultado.length() > 0  ) {
 				this->hash_resultado = sha256 ( sha256( resultado ) );
@@ -168,7 +170,7 @@ int BlockChainBuilder::dificultad( const std::string value, const size_t dif ) {
 		if ( value[ i ] == '0' ) j++;
 		else if ( value[ i ] == '1' ) break;
 		else return -1;
-		if ( j++ >= dif ) break; 
+		if ( j >= dif ) break;
 	}
 	return j;
 }

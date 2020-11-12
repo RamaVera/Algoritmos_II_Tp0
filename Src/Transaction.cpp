@@ -25,6 +25,7 @@ Transaction::Transaction(){
 //Postcondicion: Dos punteros a memoria de tamaño definido creados y
 // precargados con los datos de raw_t
 Transaction::Transaction( const raw_t & Raw ){
+	//TODO preparar Transaction para una cadena de Raw
 	this->n_tx_in = Raw.inTx;
 	for(int i = 0; i < this->n_tx_in ;i++ )
 	{
@@ -138,19 +139,46 @@ TransactionOutput * Transaction::getTransactionOutput(int index){
 std::string Transaction::getConcatenatedTransactions( void ){
        lista <TransactionInput *>::iterador itIn(this->ListaTranIn);
        lista <TransactionOutput *>::iterador itOut(this->ListaTranOut);
-       std::ostringstream concatenation;
-       concatenation << this->n_tx_in << '\n';
+       //std::ostringstream concatenation;
+       std::string concatenation;
+// 	   concatenation << this->n_tx_in << '\n';
+       concatenation += std::to_string( this->n_tx_in );
+	   concatenation += '\n';
        for(itIn = ListaTranIn.primero(); !itIn.extremo() ; itIn.avanzar()){
-               concatenation<< itIn.dato()->getTxId() <<' ';
-               concatenation<< itIn.dato()->getIdx()  <<' ';
-               concatenation<< itIn.dato()->getAddr() <<'\n';
+//               concatenation<< itIn.dato()->getTxId() <<' ';
+//               concatenation<< itIn.dato()->getIdx()  <<' ';
+//               concatenation<< itIn.dato()->getAddr() <<'\n';
+    	   	   	 concatenation += itIn.dato()->getTxId();
+    	  		 concatenation += ' ';
+    	  		 concatenation += std::to_string( itIn.dato()->getIdx() );
+    	  		 concatenation += ' ';
+    	  		 concatenation += itIn.dato()->getAddr();
+    	  	     concatenation += '\n';
+
       }
-       concatenation << this->n_tx_out << '\n';
+      concatenation += std::to_string( this->n_tx_out );
+      concatenation += '\n';
+// 	  concatenation << this->n_tx_out << '\n';
       for(itOut = ListaTranOut.primero(); !itOut.extremo() ; itOut.avanzar()){
-               concatenation<< itOut.dato()->getValue() <<' ';
-               concatenation<< itOut.dato()->getAddr()  <<'\n';
+//               concatenation<< itOut.dato()->getValue() <<' ';
+//               concatenation<< itOut.dato()->getAddr()  <<'\n';
+    	  	  	 concatenation += float_to_string_w_precision( itOut.dato()->getValue() , 1 );
+    	  	  	 concatenation += ' ';
+    	  	  	 concatenation += itOut.dato()->getAddr();
+    	  	  	 concatenation += '\n';
        }
       //std::cout <<concatenation.str()<<std::endl; //DEBUG
-      return concatenation.str();
+      //return concatenation.str();
+      return concatenation;
+}
+
+
+std::string Transaction::float_to_string_w_precision(float val, int p)
+{
+	if( p < 0 ) return "";
+	p = (unsigned int) p;
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(p) << val;
+	return stream.str();
 }
 

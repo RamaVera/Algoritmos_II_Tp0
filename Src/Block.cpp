@@ -5,7 +5,7 @@
 
 // Constructores
 Block::Block()
-	: pre_block(""), txns_hash(""), bits(3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos), txn_count(0), CurTran(NULL)
+	: pre_block(""), txns_hash(""), bits(3  /* El valor por default establecido en el TP0 */), nonce(0), eBlock(StatusBlock::BlockSinDatos), txn_count(0), CurTran(NULL)
 	// ver el #define DIFFICULTY_DEFAULT_VALUE 3
 {
 	//this->ListaTran = NULL;
@@ -15,7 +15,7 @@ Block::Block()
 }
 
 Block::Block( const raw_t & raw )
-	: pre_block(""), txns_hash(""), bits( 3  /* El valor por default establecido en el TP0 */), nonce(""), eBlock(StatusBlock::BlockSinDatos)
+	: pre_block(""), txns_hash(""), bits( 3  /* El valor por default establecido en el TP0 */), nonce(0), eBlock(StatusBlock::BlockSinDatos)
 {
 	/* Básicamente:
 			se instancia un objeto Transaction, se asume que se reciben datos consistentes.
@@ -60,7 +60,7 @@ Block::~Block() {
 }
 
 // Getters
-int Block::gettxn_count() {
+unsigned int Block::gettxn_count() {
 	return this->txn_count;
 }
 
@@ -76,7 +76,7 @@ unsigned int Block::getbits() {
 	return this->bits;
 }
 
-std::string Block::getnonce() {
+unsigned int Block::getnonce() {
 	return this->nonce;
 }
 
@@ -130,14 +130,14 @@ bool Block::setbits( unsigned int valor ) {
 	return true;
 }
 
-bool Block::setnonce( std::string valor ) {
-	if ( valor.empty() ) {
-		this->nonce = "";
+bool Block::setnonce( int valor ) {
+	if ( valor < 0 ) {
+		this->nonce = 0;
 		// Hay que anotar, en un status ?, el error o disparar un throw
 	}
 	else {
 		/* No se valida nada, puede ser cualquier dato */
-		this->nonce = valor;
+		this->nonce = (unsigned int) valor;
 	}
 	return true;
 }

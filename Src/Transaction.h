@@ -14,6 +14,7 @@
 #include "lista.h"
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 #include <cstddef> // Para NULL
 
 class Transaction {
@@ -22,6 +23,8 @@ private:
 	lista <TransactionInput *> ListaTranIn;      // Lista de inputs
 	int n_tx_out; 								 // Indica cantidad total de outputs
 	lista <TransactionOutput *> ListaTranOut;    // Lista de outputs
+
+	std::string float_to_string_w_precision(float value, int p);
 public:
 	//---Constructores---//
 	Transaction();

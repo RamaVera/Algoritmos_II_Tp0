@@ -15,14 +15,14 @@
 
 class BlockChainManager {
 	status_t state;
-	static size_t userDefinedDifficulty;
+	static unsigned int userDefinedDifficulty;
 public:
 
 	static void	proccesBlockChain( std::istream *iss, std::ostream *oss );
 	static void	proccesStatus( status_t status );
 
 	static void setUserDefinedDifficulty(int d);
-	static size_t getUserDefinedDifficulty(void);
+	static unsigned int getUserDefinedDifficulty(void);
 
 };
 
