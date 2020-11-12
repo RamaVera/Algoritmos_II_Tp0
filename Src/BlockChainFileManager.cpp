@@ -27,7 +27,7 @@ BlockChainFileManager::~BlockChainFileManager() {
 }
 status_t BlockChainFileManager::validate(std::istream * iss){
 	if( ! this->isEmpty(iss)){
-		int inTxTotal,outTxTotal;
+			int inTxTotal,outTxTotal;
 		if( this->isTxIndexFromStream(iss,'\n',&inTxTotal) == false ) 	return STATUS_CORRUPT_FORMAT_BAD_TXIN;
 		for(int inTx = 0 ; inTx < inTxTotal ; inTx++){
 			if( this->isHashFromStream(iss,' ') == false ) 				return STATUS_CORRUPT_FORMAT_BAD_HASH;
@@ -46,8 +46,19 @@ status_t BlockChainFileManager::validate(std::istream * iss){
 
 bool BlockChainFileManager::isEmpty(std::istream  * iss)
 {
-	if (iss->tellg() == 0) return true;
-	return false;
+	// PRECONDICION: ESTA FUNCION SOLO DEBE USARSE ANTES DE HACER
+	// EL TRABAJO DEL ARCHIVO PUESTO QUE AL TERMINAR DEJA APUNTANDO
+	// AL PRINCIPIO
+
+	bool empty;
+	//Voy al final de File
+	iss->seekg(0, ios::end);
+	empty = (iss->tellg() == 0)? true: false;
+	//Vuelvo al principio del File
+	iss->clear();
+	iss->seekg(0, iss->beg);
+	return empty;
+
 }
 
 bool BlockChainFileManager::isTxIndexFromStream(std::istream *iss,char delim , int * pValue)
@@ -103,10 +114,12 @@ bool BlockChainFileManager::isBTCValueFromStream(std::istream *iss,char delim,fl
 
 bool BlockChainFileManager::isEofFromStream(std::istream *iss){
 	std::string line;
+	if (iss->eof()) return true;
 	try{
 		if (std::getline(*iss, line,'\r').fail() ) return true;
 	}catch(const std::ios_base::failure& ex) {
 		//std::cerr << "Caught: std::ios_base::failure" << std::endl;
+		iss->clear();
 		return true;
 	}
 	if (line.size() != 0 )
@@ -116,9 +129,7 @@ bool BlockChainFileManager::isEofFromStream(std::istream *iss){
 
 
 status_t BlockChainFileManager::parse(std::istream * iss, raw_t * &pBuilderRawData){
-	//Vuelvo al principio del File para hacer la carga
-	iss->clear();
-	iss->seekg(0, iss->beg);
+
 	//Creo el archivo raw_t en el entorno del filemanager
 	this->pRawData = new raw_t{0};
 	if ( ! this->isEmpty(iss)){
