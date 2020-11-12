@@ -65,7 +65,7 @@ bool BlockChainFileManager::isHashFromStream(std::istream *iss,char delim, std::
 	std::string line;
 	std::stringstream ss;
 	std::getline(*iss, line,delim);
-	if( line.back() != '\r'){  				//Para portabilidad Linux - Window
+	if( line.back() == '\r'){  				//Para portabilidad Linux - Window
 		line.substr(0, line.size()-1);
 	}
 	if ( line.size() != (size_t) LargoHash::LargoHashEstandar ) 	return false;
