@@ -107,6 +107,6 @@ void BlockChainManager::setUserDefinedDifficulty(int d){
 }
 
 
-size_t BlockChainManager::getUserDefinedDifficulty( void ){
+unsigned int BlockChainManager::getUserDefinedDifficulty( void ){
 	return userDefinedDifficulty;
 }
