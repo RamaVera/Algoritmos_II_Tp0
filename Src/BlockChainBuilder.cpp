@@ -93,7 +93,7 @@ bool BlockChainBuilder::Minando() {
 			this->BlocklActual = it.dato();
 			resultado = this->BlocklActual->getpre_block() + '\n';          // <- getter que extrae la clave doble hash del Block previo.
 			resultado += this->BlocklActual->getcadenaprehash() + '\n'; 	// <- getter que extrae el string en la Clase Transaction.
-			resultado += this->BlocklActual->getbits() + '\n';
+			resultado += std::to_string( this->BlocklActual->getbits() ) + '\n';
 			if ( resultado.length() > 0 ) {
 				while ( true ) {
 					std::string nonce_temp = "";
@@ -155,7 +155,7 @@ std::string BlockChainBuilder::hex_str_to_bin_str( const std::string & hex )
     return bin;
 }
 
-int BlockChainBuilder::dificultad( const std::string value, const size_t dif ) {
+int BlockChainBuilder::dificultad( const std::string & value, const size_t dif ) {
 	// Se corta el recorrido de la cadena una vez alcanzado el valor dif
 	size_t j = 0;
 
@@ -171,7 +171,7 @@ int BlockChainBuilder::dificultad( const std::string value, const size_t dif ) {
 	return j;
 }
 
-int BlockChainBuilder::CheckDificultadOk( std::string cadenaHexa, const size_t dif ) {
+int BlockChainBuilder::CheckDificultadOk( const std::string & cadenaHexa, const size_t dif ) {
 	int d;
 	if ( cadenaHexa.empty() ) return -3;
 	if ( dif == 0 ) return -2;

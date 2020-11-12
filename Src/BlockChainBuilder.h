@@ -27,8 +27,8 @@ private:	// Redundante pero más legible
 	bool Minando();
 	static std::string hex_str_to_bin_str( const std::string & hex );
 	static const char* hex_char_to_bin( char c );
-	static int dificultad( const std::string value, const size_t dif );  					// -1 -> Error
-	
+	static int dificultad( const std::string & value, const size_t dif );  					// -1 -> Error
+
 public:
 	BlockChainBuilder();
 	BlockChainBuilder(size_t d);
@@ -40,7 +40,7 @@ public:
 	bool setbits( unsigned int valor );
 	// Métodos
 	unsigned int cantidadBlocks();
-	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
+	static int CheckDificultadOk( const std::string & cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
 	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
 	static std::string Calculononce();
 };
