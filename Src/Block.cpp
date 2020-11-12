@@ -90,6 +90,11 @@ std::string Block::getcadenaprehash() {
 	return this->cadena_prehash;
 }
 
+double Block::tiempominado() {
+	return this->seconds;
+}
+
+
 // Setters
 bool Block::setpre_block( std::string valor ) {
 	if ( valor.empty() ) {
@@ -164,6 +169,10 @@ bool Block::settransaction( const raw_t & raw ) {
 		return false;
 	}
 }
+bool Block::setseconds( double segundos ) {
+	this->seconds = segundos;
+	return true;
+}
 
 std::string Block::RecalculoHash( void ) {
 	std::string cadena = "";
@@ -173,7 +182,7 @@ std::string Block::RecalculoHash( void ) {
 		   que necesito para calcular el Hash.
 		*/
 		it = this->ListaTran.primero();
-		while ( ! it.eol() ) {
+		while ( ! it.extremo() ) {
 			cadena += it.dato()->getConcatenatedTransactions();
 			it.avanzar();
 		}

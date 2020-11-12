@@ -31,6 +31,8 @@ class Block {
 		std::string cadena_prehash;
 		// Métodos privados
 		std::string RecalculoHash( void );
+		// Para medir tiempos de minado x Block.
+		double seconds;
 
 	public:
     // Métodos
@@ -48,11 +50,13 @@ class Block {
 		unsigned int getbits();
 		std::string getnonce();
 		std::string getcadenaprehash();
+		double tiempominado();
 		// Setters
 		bool setpre_block( std::string valor );
 		bool settxns_hash( std::string valor );		// Debo dejar el método de asignación. El cálculo Hash es externo al objeto block, no está encapsulado.
 		bool setbits( unsigned int valor );
 		bool setnonce( std::string valor );			// Debo dejar el método de asignación. El cálculo del Nonce es externo al objeto block, no está encapsulado.
+		bool setseconds( double segundos );
 		bool settransaction( const raw_t & raw ) ;  // TODO
 		StatusBlock EstatusBlock();
 

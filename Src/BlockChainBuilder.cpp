@@ -115,7 +115,7 @@ bool BlockChainBuilder::Minando() {
 				}
 			}
 			time(&timer2);
-			this->seconds = difftime( timer1, timer2 );
+			this->BlocklActual->setseconds( difftime( timer1, timer2 ) );
 			it.avanzar();
 		} while ( ! it.extremo() );
 	}
