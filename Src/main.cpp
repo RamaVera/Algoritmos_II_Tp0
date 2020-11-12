@@ -63,6 +63,10 @@ int main(int argc, char * const argv[]){
 
 	BlockChainManager::proccesBlockChain(iss,oss);
 
+	//------Se cierran los archivos ------//
+	ifs.close();
+	ofs.close();
+
 	return 0;
 }
 
@@ -100,7 +104,7 @@ static void opt_input(string const &arg)
 			std::cerr << "Exception opening/reading/closing file error: " << e.code().message() << "\n";
 		}
 		iss = &ifs;
-		cout<<"La direccion del archivo Origen es :"<< arg.c_str() << endl;
+		cout<<"La direccion del archivo Origen es : "<< arg.c_str() << endl;
 
 	}
 
@@ -130,7 +134,7 @@ static void opt_output(string const &arg)
 	} else {
 		ofs.open(arg.c_str(), ios::out);
 		oss = &ofs;
-		cout<< "La direccion del archivo Destino es: "<< arg.c_str() <<endl;
+		cout<< "La direccion del archivo Destino es : "<< arg.c_str() <<endl;
 	}
 
 }
@@ -159,9 +163,10 @@ static void opt_difficulty(string const &arg)
 static void
 opt_help(string const &arg)
 {
-	cout << "cmdline [-f function] [-i file] [-o file]" << endl;
-	cout << "Funciones Admitidas: exp, Re, Im, log, cos, sen " << endl;
-	cout << "Las expresiones matematicas no deben tener espacios en blanco " << endl;
+	cout << "cmdline [-i file] [-o file] [-d dificulty ]" << endl;
+	cout << "La dificultad debe ser un valor entero mayor a 0 " << endl;
+	cout << "El formato de entrada debe ser el presentado en el"
+			"enunciado y no debe terminar con una nueva linea" << endl;
 	std::abort();
 }
 //
