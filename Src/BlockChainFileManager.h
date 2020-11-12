@@ -20,6 +20,7 @@ class BlockChainFileManager {
 private:
 	raw_t * pRawData;
 
+	bool isEmpty(std::istream  * iss);
 	bool isTxIndexFromStream(std::istream *iss,char delim = '\n', int * pValue = NULL);
 	bool isHashFromStream(std::istream *iss,char delim = '\n', std::string * pString = NULL);
 	bool isBTCValueFromStream(std::istream *iss,char delim = '\n', float * pFloat = NULL);
