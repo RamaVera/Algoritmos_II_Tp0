@@ -90,17 +90,23 @@ static void opt_input(string const &arg)
 
 	}
 	else {
-		ifs.open(arg.c_str(), ios::in); // c_str(): Returns a pointer to an array that contains a null-terminated
-										// sequence of characters (i.e., a C-string) representing
-										// the current value of the string object.
+		ifs.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
+		try {
+			ifs.open(arg.c_str(), ios::in); // c_str(): Returns a pointer to an array that contains a null-terminated
+											// sequence of characters (i.e., a C-string) representing
+											// the current value of the string object.
+		}
+		catch (std::system_error& e) {
+			std::cerr << "Exception opening/reading/closing file error: " << e.code().message() << "\n";
+		}
 		iss = &ifs;
-		cout<<"La direccion del archivo Origen es :"<< arg.c_str() <<endl;
+		cout<<"La direccion del archivo Origen es :"<< arg.c_str() << endl;
 
 	}
 
 	// Verificamos que el stream este OK.
 	//
-	if (!iss->good()) {
+	if ( !iss->good() ) {
 		cerr << "cannot open "
 		     << arg
 		     << "."

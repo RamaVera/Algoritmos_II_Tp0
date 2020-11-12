@@ -19,7 +19,7 @@
 class BlockChainBuilder {
 private:	// Redundante pero más legible
 	//  Anterior
-	static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager 
+	//static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager
 	// Datos privados
 	Block * BlocklActual;
 	lista <Block *> ListaBlocks;
@@ -47,7 +47,7 @@ public:
 	// Métodos
 	unsigned int cantidadBlocks();
 	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
-	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
+	//static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
 	static std::string Calculononce();
 	status_t createBlockChain(void);
 

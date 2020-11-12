@@ -8,7 +8,6 @@
 #include "BlockChainFileManager.h"
 
 
-
 BlockChainFileManager::BlockChainFileManager() {
 	pRawData = NULL;
 }
@@ -66,10 +65,13 @@ bool BlockChainFileManager::isHashFromStream(std::istream *iss,char delim, std::
 	std::string line;
 	std::stringstream ss;
 	std::getline(*iss, line,delim);
-	if( line.back() != '\r'){
-		if ( line.size() != 64 ) 	 return false;}
-	else{
-		if ( line.size() != 64 + 1 ) return false;}
+	if( line.back() != '\r'){  				//Para portabilidad Linux - Window
+		line.substr(0, line.size()-1);
+	}
+	if ( line.size() != (size_t) LargoHash::LargoHashEstandar ) 	return false;
+	for (unsigned int i = 0; i < line.length(); ++i) {
+		if ( ! isxdigit ( line[i] ) ) 								return false;
+	}
 	//Debug
 	//std::cout << line << std::endl;
 	if(pString != NULL) *pString = line;
@@ -94,8 +96,9 @@ bool BlockChainFileManager::isBTCValueFromStream(std::istream *iss,char delim,fl
 }
 
 bool BlockChainFileManager::isEofFromStream(std::istream *iss){
-	std::string line;
-	return (std::getline(*iss, line))? false : true;
+	//std::string line;
+	//return (std::getline(*iss, line))? false : true;
+	return iss->eof();
 }
 
 
@@ -186,7 +189,8 @@ status_t BlockChainFileManager::convert(std::ostream * iss, const lista <Block *
 		*iss << it.dato()->gettxns_hash() << '\n';
 		*iss << it.dato()->getbits( )	  << '\n';
 		*iss << it.dato()->getnonce()	  << '\n';
-		*iss << it.dato()->RecalculoHash();
+		*iss << it.dato()->gettxn_count() << '\n';
+		*iss << it.dato()->getcadenaprehash();	
 		it.avanzar();
 	}
 	return STATUS_FINISH_CONVERT_SUCCESSFULY;

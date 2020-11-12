@@ -14,6 +14,7 @@
 #include "BlockChainStatus.h"
 #include "BlockChainBuilder.h"
 #include "BlockChainDataTypes.h"
+#include "TiposHash.h"
 
 class BlockChainFileManager {
 private:

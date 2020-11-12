@@ -28,19 +28,31 @@ Transaction::Transaction( const raw_t & Raw ){
 	this->n_tx_in = Raw.inTx;
 	for(int i = 0; i < this->n_tx_in ;i++ )
 	{
-		TransactionInput * pTxInput = new TransactionInput;
-		pTxInput->setTxId(Raw.IN_tableOfTxId[i]);
-		pTxInput->setIdx(Raw.IN_tableOfIndex[i]);
-		pTxInput->setAddr(Raw.IN_tableOfAddr[i]);
-		this->ListaTranIn.insertar(pTxInput);
+		try {
+			TransactionInput * pTxInput = new TransactionInput;
+			pTxInput->setTxId(Raw.IN_tableOfTxId[i]);
+			pTxInput->setIdx(Raw.IN_tableOfIndex[i]);
+			pTxInput->setAddr(Raw.IN_tableOfAddr[i]);
+			this->ListaTranIn.insertar(pTxInput);
+		}
+		catch (std::bad_alloc& ba)
+		{
+			std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+		}
 	}
 	this->n_tx_out = Raw.outTx;
 	for(int i = 0; i < this->n_tx_out ;i++ )
 	{
-		TransactionOutput * pTxOutput = new TransactionOutput;
-		pTxOutput->setValue(Raw.OUT_tableOfValues[i]);
-		pTxOutput->setAddr(Raw.OUT_tableOfAddr[i]);
-		this->ListaTranOut.insertar(pTxOutput);
+		try {
+			TransactionOutput * pTxOutput = new TransactionOutput;
+			pTxOutput->setValue(Raw.OUT_tableOfValues[i]);
+			pTxOutput->setAddr(Raw.OUT_tableOfAddr[i]);
+			this->ListaTranOut.insertar(pTxOutput);
+		}
+		catch (std::bad_alloc& ba)
+		{
+			std::cerr << "bad_alloc caught: " << ba.what() << '\n';
+		}
 	}
 }
 
@@ -135,9 +147,10 @@ std::string Transaction::getConcatenatedTransactions( void ){
       }
        concatenation << this->n_tx_out << '\n';
       for(itOut = ListaTranOut.primero(); !itOut.extremo() ; itOut.avanzar()){
-              concatenation<< itOut.dato()->getValue() <<' ';
+               concatenation<< itOut.dato()->getValue() <<' ';
                concatenation<< itOut.dato()->getAddr()  <<'\n';
        }
-       return concatenation.str();
+      //std::cout <<concatenation.str()<<std::endl; //DEBUG
+      return concatenation.str();
 }
 

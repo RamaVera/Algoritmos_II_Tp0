@@ -19,6 +19,6 @@ typedef struct{
 	std::string * OUT_tableOfAddr;
 } raw_t;
 
-typedef int blockchain_t;
+
 
 #endif /* BLOCKCHAINDATATYPES_H_ */
