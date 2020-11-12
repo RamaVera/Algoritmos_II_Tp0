@@ -12,6 +12,9 @@
 #include "TransactionOutput.h"
 #include "BlockChainDataTypes.h"
 #include "lista.h"
+#include <iostream>
+#include <sstream>
+#include <cstddef> // Para NULL
 
 class Transaction {
 private:

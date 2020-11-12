@@ -7,8 +7,6 @@
 
 #include "TransactionOutput.h"
 
-#include <cstddef>
-
 	//---Constructores---//
 
 //Descripcion: Construye el objeto TransactionOutput vacio

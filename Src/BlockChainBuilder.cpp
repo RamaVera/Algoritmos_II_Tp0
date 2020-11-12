@@ -6,12 +6,6 @@
  */
 
 #include "BlockChainBuilder.h"
-#include "Block.h"
-
-#include "TiposHash.h"
-
-#include "lista.h"
-#include "sha256.h"
 
 
 BlockChainBuilder::BlockChainBuilder() : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( 3 /* El valor por default establecido en el TP0 */), pRawData(NULL){}
@@ -19,37 +13,51 @@ BlockChainBuilder::BlockChainBuilder() : BlocklActual(), ListaBlocks(), hash_res
 BlockChainBuilder::BlockChainBuilder(size_t d) : BlocklActual(), ListaBlocks(), hash_resultado( "" ), bits( d ), pRawData(NULL){}
 
 BlockChainBuilder::~BlockChainBuilder() {
-	// TODO Auto-generated destructor stub
-}
-
-int BlockChainBuilder::CheckHexa( string value ) {
-	unsigned int i;
-	for (i = 0; i != value.length(); ++i) {
-		if ( ! isxdigit ( value[i] ) ) break;
-	}
-	if ( i < value.length() ) return i;
-	return 0;
-}
-
-bool BlockChainBuilder::CheckHash( std::string valor, TiposHash Tipo ) {
-	if ( valor.empty() ) {
-		return false;
-	}
-	else if ( Tipo  == TiposHash::clavehash256 && valor.length() != LargoHashEstandar ) {
-		return false;
-	}
-	else if ( Tipo  == TiposHash::clavefirma && valor.length() != LargoHashFirma ) {
-		return false;
-	}
-	else {
-		int i = CheckHexa( valor );
-		if ( i > 0 ) {
-			// Anotar la posición y valor del dígito erróneo
-			return false;
+	if ( ! this->ListaBlocks.vacia() ){
+	// lista <Transaction>::iterador it();
+		lista <Block *>::iterador it(ListaBlocks);
+		/* Itero la lista para recuperar todos los strings de la coleccion Transaction
+		   que necesito para calcular el Hash.
+		*/
+		it = this->ListaBlocks.primero();
+		while ( ! it.extremo() ) {
+			delete it.dato();
+			it.avanzar();
 		}
-		else return true;
 	}
+
 }
+
+//int BlockChainBuilder::CheckHexa( string value ) {
+//	unsigned int i;
+//	for (i = 0; i != value.length(); ++i) {
+//		if ( ! isxdigit ( value[i] ) ) break;
+//	}
+//	if ( i < value.length() ) return i;
+//	return 0;
+//}
+//
+//bool BlockChainBuilder::CheckHash( std::string valor, TiposHash Tipo ) {
+//	if ( valor.empty() ) {
+//		return false;
+//	}
+//	//else if ( Tipo  == TiposHash::clavehash256 && valor.length() != LargoHashEstandar ) {
+//	else if ( Tipo  == TiposHash::clavehash256 && valor.length() != (size_t) LargoHash::LargoHashEstandar ) {
+//		return false;
+//	}
+//	//else if ( Tipo  == TiposHash::clavefirma && valor.length() != LargoHashFirma ) {
+//	else if ( Tipo  == TiposHash::clavefirma && valor.length() != (size_t) LargoHash::LargoHashFirma ) {
+//		return false;
+//	}
+//	else {
+//		int i = CheckHexa( valor );
+//		if ( i > 0 ) {
+//			// Anotar la posición y valor del dígito erróneo
+//			return false;
+//		}
+//		else return true;
+//	}
+//}
 
 std::string BlockChainBuilder::Calculononce() {
 	static int contador = 0;
@@ -59,11 +67,25 @@ std::string BlockChainBuilder::Calculononce() {
 }
 
 bool BlockChainBuilder::CalculoBits( std::string hash, size_t bits ) {
-	return true;
+
+	int test = BlockChainBuilder::CheckDificultadOk( hash, bits);
+	if ( test == 1 ) {
+		//std::cout << "Dificultad Ok < " << test << std::endl;
+		return true;
+	}
+	else if ( test < 0 ) {
+		//std::cout << "Error: " << test << std::endl;
+		return false;
+	}
+	else {
+		//std::cout << "Dificultad < " << test << std::endl;
+		return false;
+	};
+
 }
 
 bool BlockChainBuilder::Minando() {
-	std::string resultado = "";
+	std::string resultado;
 	
 	if ( ! this->ListaBlocks.vacia() ) {
 		lista <Block *>::iterador it;
@@ -73,16 +95,25 @@ bool BlockChainBuilder::Minando() {
 		it = this->ListaBlocks.primero();
 		do  {
 			this->BlocklActual = it.dato();
-			resultado += this->BlocklActual->gettxns_hash(); 	// <- falta definir el método que extrae el string en la Clase Transaction.
-			resultado += this->BlocklActual->getnonce();
-			if ( resultado.length() > 0  ) {
+			do{		
+				resultado = "";
+				this->BlocklActual->setnonce( BlockChainBuilder::Calculononce());
+				resultado += this->BlocklActual->getpre_block();
+				resultado += '\n';
+				resultado += this->BlocklActual->gettxns_hash(); 
+				resultado += '\n';
+				resultado += this->BlocklActual->getbits();
+				resultado += '\n';
+				resultado += this->BlocklActual->getnonce();
+				//std::cout << resultado << std::endl;//DEBUG
+				//if ( resultado.length() > 0  ) {
 				this->hash_resultado = sha256 ( sha256( resultado ) );
-				if ( CalculoBits( this->hash_resultado, this->bits ) ) {
-					break;
-				}
-			}
+				//std::cout << this->hash_resultado << std::endl; //DEBUG
+				//}
+			}while(! CalculoBits( this->hash_resultado, this->bits ) );
 			it.avanzar();
-		} while ( ! it.eol() );
+		} while ( ! it.extremo() );
+		return true;
 	}
 	return false;
 }
@@ -149,4 +180,15 @@ int BlockChainBuilder::CheckDificultadOk( std::string cadenaHexa, const size_t d
 	d = dificultad( cadenaHexa, dif);
 	if ( d < 0 ) return -1;
 	return (size_t) d >= dif ? 1 : 0;
+}
+
+
+status_t BlockChainBuilder::createBlockChain( void ){
+	Block * newBlock = new Block(*pRawData);
+	newBlock->setpre_block( "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" );
+	newBlock->settxns_hash(sha256(sha256(newBlock->getcadenaprehash())));
+	newBlock->setbits(this->bits);
+	this->ListaBlocks.insertar(newBlock);
+	this->Minando();
+	return STATUS_OK;
 }

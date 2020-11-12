@@ -8,10 +8,10 @@
 #ifndef BLOCKCHAINMANAGER_H_
 #define BLOCKCHAINMANAGER_H_
 
-#include<string>
 #include <iostream>
-#include  "BlockChainStatus.h"
-
+#include "BlockChainStatus.h"
+#include "BlockChainFileManager.h"
+#include "BlockChainBuilder.h"
 
 class BlockChainManager {
 	status_t state;

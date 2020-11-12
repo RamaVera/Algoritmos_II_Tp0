@@ -103,10 +103,10 @@ bool CheckHash( string valor, TiposHash Tipo = TiposHash::clavehash256 ) {
 	if ( valor.empty() ) {
 		return false;
 	}
-	else if ( Tipo  == TiposHash::clavehash256 && valor.length() != LargoHashEstandar ) {
+	else if ( Tipo  == TiposHash::clavehash256 && valor.length() != (size_t) LargoHash::LargoHashEstandar ) {
 		return false;
 	}
-	else if ( Tipo  == TiposHash::clavefirma && valor.length() != LargoHashFirma ) {
+	else if ( Tipo  == TiposHash::clavefirma && valor.length() != (size_t) LargoHash::LargoHashFirma ) {
 		return false;
 	}
 	else {
@@ -126,7 +126,7 @@ bool CheckPreBlock( string valor ) {
 	if ( valor.empty() ) {
 		return false;
 	}
-	else if ( valor.length() != LargoHashEstandar /* Hay que sacar este Hardcodeo */ ) {
+	else if ( valor.length() != (size_t) LargoHash::LargoHashEstandar /* Hay que sacar este Hardcodeo */ ) {
 		return false;
 	}
 	else {

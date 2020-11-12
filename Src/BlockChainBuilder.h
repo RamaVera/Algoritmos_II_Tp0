@@ -9,13 +9,17 @@
 #define BLOCKCHAINBUILDER_H_
 
 #include "TiposHash.h"
-#include "Block.h"
 #include "BlockChainDataTypes.h"
+#include "BlockChainStatus.h"
+#include "Block.h"
+#include "lista.h"
+#include "sha256.h"
+
 
 class BlockChainBuilder {
 private:	// Redundante pero más legible
 	//  Anterior
-	static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager 
+	//static int CheckHexa( std::string value );	// <- esta le sería más util a BlockChainFileManager
 	// Datos privados
 	Block * BlocklActual;
 	lista <Block *> ListaBlocks;
@@ -35,14 +39,18 @@ public:
 	virtual ~BlockChainBuilder();
 		// Getters
 	unsigned int getbits();
+	std::string getObtainedHash(){return hash_resultado;};
 	raw_t *& getRawPointer(){return pRawData;}
+	lista <Block *> getBlockChainPointer(){return ListaBlocks;};
 	// Setters
 	bool setbits( unsigned int valor );
 	// Métodos
 	unsigned int cantidadBlocks();
 	static int CheckDificultadOk( const std::string cadenaHexa, const size_t dif );  // Error -> < 0, No -> 0, 0k -> 1
-	static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
+	//static bool CheckHash( std::string valor, TiposHash Tipo = TiposHash::clavehash256 );
 	static std::string Calculononce();
+	status_t createBlockChain(void);
+
 };
 
 #endif /* BLOCKCHAINBUILDER_H_ */
