@@ -46,7 +46,6 @@ status_t BlockChainFileManager::validate(std::istream * iss){
 
 bool BlockChainFileManager::isEmpty(std::istream  * iss)
 {
-	iss->seekg(0, ios::end);
 	if (iss->tellg() == 0) return true;
 	return false;
 }
